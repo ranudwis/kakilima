@@ -38,6 +38,13 @@ class User extends Authenticatable
         return $value == "M" ? "Laki-laki" : "Perempuan";
     }
 
+    public function getPhotoAttribute($value){
+        if(empty($value)){
+            return url('images/dummyUser.png');
+        }
+        return url(\Storage::url($value));
+    }
+
     public function items(){
         return $this->hasMany(Item::class);
     }

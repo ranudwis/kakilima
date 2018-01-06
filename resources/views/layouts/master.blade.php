@@ -15,10 +15,12 @@
 @endphp
 <html>
 <head>
+    <meta name="viewport" value="width=device-width, initial-scale=0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Kaki Lima</title>
     <link rel="stylesheet" href="{{ url('/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url('/css/font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="shortcut icon" href="{{ url('/images/logoSmall.png') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ url('/js/jquery-3.2.1.min.js') }}"></script>
 </head>
 <body>

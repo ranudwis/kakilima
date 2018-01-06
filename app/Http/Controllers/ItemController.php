@@ -25,12 +25,13 @@ class ItemController extends Controller
             'condition' => 'required|in:new,used',
             'category' => 'required|exists:categories,id',
             'description' => 'required|min:10',
-            'photo.*' => 'required|image'
+            'photo' => 'required',
+            'photo.*' => 'image'
         ]);
 
         auth()->user()->addItem(request()->all());
 
-        return back();
+        return back()->with('cm','Barang berhasil ditambahkan');
     }
 
     public function show(Item $item){

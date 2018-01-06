@@ -5,15 +5,9 @@
         <div id="welcomeCategory">
             <h2>Kategori</h2>
             <div id="welcomeCategoryList">
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
-                <a href="">Perabot</a>
+                @foreach($categories as $category)
+                    <a href="{{ route('showcategory',['category' => $category->id]) }}">{{ $category->name }}</a>
+                @endforeach
                 <a href="">Kategori Lainnya</a>
             </div>
         </div>
@@ -45,34 +39,15 @@
                     </div>
                     <div class="addToFav">
                         @if(in_array($item->id,$favorites))
-                            <img src="{{ url('/images/favActive.png') }}" class="active">
+                            <i class="fa fa-heart"></i>
                         @else
-                            <img src="{{ url('/images/fav.png') }}">
+                            <i class="fa fa-heart-o"></i>
                         @endif
                     </div>
                 </div>
             @endforeach
         </div>
-        <a class="sectionButton" href="">Selengkapnya</a>
-    </div>
-    <div class="section">
-        <h2>Brand Resmi</h2>
-        <div class="officialProduct">
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand2.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand2.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand2.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand2.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand2.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand2.png') }}"></a>
-            <a href=""><img src="{{ url('/images/brand.png') }}"></a>
-        </div>
-        <a class="sectionButton" href="">Selengkapnya</a>
+        <a class="sectionButton" href="">Selengkapnya <i class="fa fa-chevron-right"></i></a>
     </div>
 @endsection
 @section('footer')

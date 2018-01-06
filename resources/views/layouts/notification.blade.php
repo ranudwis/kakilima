@@ -3,7 +3,7 @@
 </script>
 @if($errors->has('cm'))
     <div id="notification" class="error hide">
-        {{ $errors->first('cm') }}
+        <i class="fa fa-warning fa-fw"></i>{{ $errors->first('cm') }}
     </div>
 @elseif($errors->any())
     <script>
@@ -13,9 +13,11 @@
         @endforeach
         }
     </script>
+    <div id="notification" class="hide">
+    </div>
 @elseif(Session::has('cm'))
     <div id="notification" class="notify hide">
-        {{ Session::get('cm') }}
+        <i class="fa fa-info-circle fa-fw"></i>{{ Session::get('cm') }}
     </div>
 @else
     <div id="notification" class="hide">

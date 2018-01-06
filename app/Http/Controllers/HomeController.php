@@ -8,11 +8,12 @@ class HomeController extends Controller
 {
     public function index(){
         $items = \App\Item::orderBy('sold','desc')->with('reviews')->take(5)->get();
+        $categories = \App\Category::all();
         if(!is_null($user = auth()->user())){
             $favorites = $user->favorites->toArray();
         }else{
             $favorites = [];
         }
-        return view('home',compact('items','favorites'));
+        return view('home',compact('items','favorites','categories'));
     }
 }

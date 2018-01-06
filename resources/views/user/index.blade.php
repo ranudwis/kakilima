@@ -1,24 +1,37 @@
-@extends('backend.layout')
+@extends('layouts.master')
 
 @section('content')
-    <div>
-        Nama: {{ $user->name }}
+<div class="section accountInformation linesection">
+    <h2>Informasi akun</h2>
+    <div class="flexWrapper">
+        <div class="profilePhoto">
+            <img src="{{ $user->photo }}">
+            <a href="{{ route("user.editPhoto") }}" class="btn btnBlue btnanimation"><i class="fa fa-pencil fa-fw"></i>Edit foto</a>
+        </div>
+        <table class="userInformation">
+            <tr>
+                <td>Nama</td>
+                <td>{{ $user->name }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ $user->email }}</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{ $user->username }}</td>
+            </tr>
+            <tr>
+                <td>Jenis kelamin</td>
+                <td>{{ $user->gender }}</td>
+            </tr>
+            <tr>
+                <td>Alamat</td>
+                <td>{{ $user->address }}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><a href="{{ route('user.editProfile') }}" class="btn btnBlue btnanimation"><i class="fa fa-pencil fa-fw"></i>Edit profil</a>
+        </table>
     </div>
-    <div>
-        Email: {{ $user->email }}
-    </div>
-    <div>
-        Username: {{ $user->username }}
-    </div>
-    <div>
-        Jenis kelamin: {{ $user->gender }}
-    </div>
-    <div>
-        <form method="post" action="{{ route('user') }}">
-            {{ csrf_field() }}
-            Alamat
-            <textarea name="address">{{ $user->address }}</textarea>
-            <input type="submit" value="Simpan">
-        </form>
-    </div>
+</div>
 @endsection

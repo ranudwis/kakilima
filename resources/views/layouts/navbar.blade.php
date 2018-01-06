@@ -21,6 +21,7 @@
         <div id="searchBar">
             <form method="post" action="{{ route('search') }}">
                 <input type="text" name="query" placeholder="Aku mau beli...">
+                <i class="fa fa-search"></i>
             </form>
         </div>
         @endunless
@@ -29,7 +30,8 @@
         @unless($admin)
         <div id="cartSection" class="dropdownSection">
             <a href="{{ route('viewcart') }}" id="cart">
-                <img src="{{ url('/images/cart.png') }}">
+                <i class="fa fa-shopping-cart fa-fw navicon"></i>
+                <!-- <img src="{{ url('/images/cart.png') }}"> -->
                 <div id="cartCounter" class="counter">
                     99
                 </div>
@@ -42,20 +44,24 @@
         @endunless
         @if(Auth::check())
             <div id="userButton" class="dropdownSection">
-                <a href="{{ route('user') }}"><img src="{{ url('/images/user'.$white.'.png') }}"></a>
+                <!-- <a href="{{ route('user') }}"><img src="{{ url('/images/user'.$white.'.png') }}"></a> -->
+                <a href="{{ route('user') }}"><i class="fa fa-user navicon"></i>{{ explode(" ",auth()->user()->name)[0] }}</a>
                 <div class="dropdownList" id="userList">
                     @if($admin)
                         <a href="{{ route('dashboard') }}">Administrasi</a>
                     @else
-                        <a href="{{ route('additem') }}">Jual barang</a>
+                        <a href="{{ route('additem') }}"><i class="fa fa-plus fa-fw"></i>Jual barang</a>
+                        <a href="{{ route('user') }}"><i class="fa fa-cog fa-fw"></i>Informasi akun</a>
                     @endif
-                    <a href="{{ route('logout') }}">Keluar</a>
+                    <a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i>Keluar</a>
                 </div>
             </div>
             <!-- <a href="{{ route('logout') }}" id="register">Keluar</a> -->
         @else
-            <a href="{{ route('login') }}" id="login">Masuk</a>
-            <a href="{{ route('register') }}" id="register">Daftar</a>
+            <div id="loginButton">
+                <a href="{{ route('login') }}" id="login">Masuk</a>
+                <a href="{{ route('register') }}" id="register">Daftar</a>
+            </div>
         @endif
     </div>
 </div>

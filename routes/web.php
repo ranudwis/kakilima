@@ -29,7 +29,10 @@ Route::post('/dashboard/coupon', 'DashboardController@addCoupon')->name('addcoup
 
 
 Route::get('/user','UserController@index')->name('user');
-Route::post('/user','UserController@store');
+Route::get('/user/photo','UserController@editPhoto')->name('user.editPhoto');
+Route::post('/user/photo','UserController@updatePhoto');
+Route::get('/user/profil','UserController@editProfile')->name('user.editProfile');
+Route::post('/user/profil','UserController@updateProfile');
 Route::post('/cari', 'ItemController@search')->name('search');
 
 Route::get('/produk/tambah','ItemController@create')->name('additem');
@@ -42,6 +45,8 @@ Route::get('/backend/produk', 'BackendController@itemIndex')->name('items');
 Route::get('/backend/produk/tambah', 'BackendController@itemCreate');//->name('additem');
 Route::post('/backend/produk/tambah', 'BackendController@itemStore');
 Route::get('/produk/{item}', 'ItemController@show')->name('showitem');
+
+Route::get('/category/{category}','ItemController@showByCategory')->name('showcategory');
 
 Route::post('/addfavorites', 'FavoriteController@store');
 

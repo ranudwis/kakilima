@@ -13,9 +13,9 @@
     <div>
         <div>Kategori</div>
         <div><select name="category" value="{{ old('category') }}">
-                <option value="0" selected>Pilih kategori</option>
+                <option value="0" @if(empty(old('category') || old('category') == 0)) selected @endif>Pilih kategori</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" @if(old('category') == $category->id) selected @endif>{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -54,12 +54,6 @@
         <button class="btnanim btnanimation" type="submit">Simpan</button>
     </div>
 </form>
-<!-- <div class="largeImageUpload">
-    <div>
-        <span class="plus">+</span>
-        <div>Unggah gambar</div>
-    </div>
-</div> -->
 </div>
 </div>
 @endsection

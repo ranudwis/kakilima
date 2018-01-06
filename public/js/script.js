@@ -76,12 +76,7 @@ if(typeof errors != "undefined"){
     var form = document.querySelector(".form") || document.querySelector(".regularform");
     for(i in errors){
         var element = form[i];
-        if(element.length != undefined){
-            element[0].classList.add("error");
-            element = element[0];
-        }else{
-            element.classList.add("error");
-        }
+        element.classList.add("error");
         element.addEventListener("input",function(){
             this.classList.remove("error");
             var next = this.parentElement.nextElementSibling;
@@ -89,21 +84,27 @@ if(typeof errors != "undefined"){
         });
 
         var div = document.createElement("div");
-        div.innerHTML = errors[i];
+        div.innerHTML = "<i class=\"fa fa-warning fa-fw\"></i><span>"+errors[i]+"</span>";
+        div.addEventListener("mouseenter",function(){
+            this.lastElementChild.style.display = "block";
+            setTimeout(function(element){element.classList.add("active")},100,this);
+        })
+        div.addEventListener("mouseleave",function(){
+            this.classList.remove("active");
+            setTimeout(function(element){element.lastElementChild.style.display = "none"},200,this);
+        })
         div.className = "formError"
         element.parentElement.parentElement.appendChild(div);
     }
 }
 function notifSuccess(text){
-    notification.innerHTML = text;
-    notification.classList.add("notify");
-    notification.classList.remove("hide");
+    notification.innerHTML = "<i class=\"fa fa-info-circle fa-fw\"></i>"+text;
+    notification.className = "notify"
     showNotif();
 }
 function notifError(text){
-    notification.innerHTML = text;
-    notification.classList.add("error");
-    notification.classList.remove("hide");
+    notification.innerHTML = "<i class=\"fa fa-warning fa-fw\"></i>"+text;
+    notification.className = "error";
     showNotif();
 }
 function showNotif(){
