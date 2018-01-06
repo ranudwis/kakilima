@@ -48,7 +48,7 @@
                 <a href="{{ route('user') }}"><i class="fa fa-user navicon"></i>{{ explode(" ",auth()->user()->name)[0] }}</a>
                 <div class="dropdownList" id="userList">
                     @if($admin)
-                        <a href="{{ route('dashboard') }}">Administrasi</a>
+                        <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i>Dashbor</a>
                     @else
                         <a href="{{ route('additem') }}"><i class="fa fa-plus fa-fw"></i>Jual barang</a>
                         <a href="{{ route('user') }}"><i class="fa fa-cog fa-fw"></i>Informasi akun</a>

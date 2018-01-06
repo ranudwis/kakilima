@@ -4,7 +4,7 @@
     <?php
         $link = false;
         $dashboardLink = [
-            "" => "Ikhtisar",
+            "" => "Ringkasan",
             "kategori" => [
                 "tambah" => "Tambah kategori",
                 "statistik" => "Statistik kategori",
@@ -12,6 +12,9 @@
             "kupon" => [
                 "tambah" => "Tambah kupon",
                 "tampil" => "Tampil kupon"
+            ],
+            "pengaturan" => [
+                "slider" => "Slider",
             ],
             "transaksi" => "Transaksi"
         ]

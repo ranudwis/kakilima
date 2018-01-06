@@ -1,5 +1,9 @@
+@font-face {
+    name: 'roboto';
+    src: url('../fonts/Roboto-Regular.ttf');
+}
 body{
-    font-family: sans-serif;
+    font-family: roboto,sans-serif;
     color: #616161;
     margin: 0;
     padding: 0;
@@ -14,7 +18,7 @@ body{
     display:flex;
     justify-content: space-between;
     font-size: 16px;
-    z-index: 9999999;
+    z-index: 999999999;
     background-color: white;
     height: 60px;
     padding: 0px 32px;
@@ -213,6 +217,9 @@ h1{
     align-items: center;
     position: relative;
 }
+.halfForm{
+    width: 50%;
+}
 .regularform > div div{
     display: inline-flex;
 }
@@ -363,7 +370,12 @@ h1{
 .formError.active span{
     opacity: 1;
 }
+.fullform .formError span{
+    left: initial;
+    right: 100%;
+}
 #notification{
+    z-index: 999999988;
     position: fixed;
     right: 50%;
     transform: translateX(50%);
@@ -463,6 +475,9 @@ h1{
 .section h2{
     color: #333;
     margin: 8px 0px;
+    font-size: 24px;
+    margin: 16px 0;
+    font-weight: normal;
 }
 .linesection h2{
     position: relative;
@@ -703,8 +718,19 @@ h1{
     padding: 16px;
 }
 #dashboardContent h2{
-    border-bottom: 2px solid #999;
-    font-size: 32px;
+    font-size: 24px;
+    margin: 16px 0;
+    position: relative;
+    font-weight: normal;
+}
+#dashboardContent h2::after{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100px;
+    height: 2px;
+    background-color: #17a99d;
 }
 
 #scrollToTop{
@@ -758,6 +784,7 @@ h1{
     color: white;
     text-decoration: none;
     position: relative;
+    display: inline-block;
 }
 .btnblue{
     background-color: #447adf;
@@ -778,6 +805,12 @@ h1{
     width: 0;
     transition: width 0.2s;
     background-color: rgba(255,255,255,0.2);
+}
+.btnSpace{
+    margin: 0 0 16px 0;
+}
+.btnPadding{
+    padding: 12px 14px;
 }
 .btnanimation:hover::after{
     width: 100%;
@@ -833,4 +866,30 @@ h1{
 }
 .userInformation td{
     padding: 16px 8px;
+}
+
+.dashboardWrapper{
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.dashboardCard{
+    background-color: #17a99d;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    margin: 5px 0;
+    display: flex;
+    color: white;
+    width: 24%;
+}
+.dashboardCard .icon{
+    background-color: #17909d;
+    font-size: 48px;
+    padding: 24px;
+}
+.dashboardCard .text{
+    font-size: 18px;
+    padding: 16px 8px;
+}
+.sliderTable img{
+    max-width: 300px;
+    max-height: 200px;
 }

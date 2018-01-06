@@ -3,7 +3,7 @@
 @section('content')
     <div class="section linesection">
         <h3>Edit profil</h3>
-        <form method="post" action="{{ route('user.editProfile') }}" class="regularForm">
+        <form method="post" action="{{ route('user.editProfile') }}" class="regularForm halfForm">
             {{ csrf_field() }}
             <div>
                 <div>Nama</div>
@@ -21,6 +21,24 @@
                 <div>Username</div>
                 <div>
                     <input type="text" name="username" value="{{ $user->username }}">
+                </div>
+            </div>
+            <div>
+                <div>Ganti password</div>
+                <div>
+                    <input type="password" name="password" value="">
+                </div>
+            </div>
+            <div>
+                <div>Ulangi password</div>
+                <div>
+                    <input type="password" name="password_confirmation" value="">
+                </div>
+            </div>
+            <div>
+                <div>Password lama</div>
+                <div>
+                    <input type="password" name="password_old" value="">
                 </div>
             </div>
             <div>

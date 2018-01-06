@@ -17,7 +17,20 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        return view('dashboard.index',['linkName' => 0,'subLink' => 0]);
+        $overview = \DB::select("select user,item,transaction from
+        (select count(*) user from users where level='0') users,
+        (select count(*) item from items) items,
+        (select count(*) transaction from transactions where status!='saved') transactions")[0];
+        $str   = @file_get_contents('/proc/uptime');
+        $num   = floatval($str);
+        $secs  = fmod($num, 60); $num = intdiv($num, 60);
+        $mins  = $num % 60;      $num = intdiv($num, 60);
+        $hours = $num % 24;      $num = intdiv($num, 24);
+        $days  = $num;
+        $overview->uptime = "{$days}d{$hours}h{$mins}m";
+        $linkName = 0;
+        $subLink = 0;
+        return view('dashboard.index',compact('linkName','subLink','overview'));
     }
 
     public function dashboard($dash, $subdash = 0){
@@ -32,6 +45,13 @@ class DashboardController extends Controller
                 break;
             case "transaksi":
                 $data = Invoice::where('status','wait')->with('user')->orderBy('updated_at','desc')->get();
+                break;
+            case "pengaturan":
+                switch($subdash){
+                    case "slider":
+                        $data = \DB::table('sliders')->get();
+                        break;
+                }
                 break;
         }
         return view('dashboard.index',['linkName' => $dash,'subLink' => $subdash, 'data' => $data]);
@@ -102,5 +122,24 @@ class DashboardController extends Controller
         session()->flash('cm', 'Transaksi berhasil ditolak');
 
         return back();
+    }
+
+    public function storeSlider(){
+        $this->validate(request(),[
+            'photo' => 'required|image'
+        ]);
+        \DB::table('sliders')->insert([
+            'filename' => request('photo')->store('/public/sliders')
+        ]);
+
+        return redirect()->route('board',['board' => 'pengaturan','subboard' => 'slider'])
+        ->with('cm','Slider berhasil disimpan');
+    }
+
+    public function destroySlider($slider){
+        $data = \DB::table('sliders')->where('id',$slider);
+        \Storage::delete($data->first()->filename);
+        $data->delete();
+        return back()->with('cm','Slider berhasil dihapus');
     }
 }

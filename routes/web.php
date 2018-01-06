@@ -26,6 +26,8 @@ Route::post('/daftar', 'RegistrationController@store');
 Route::get('/kategori', 'CategoryController@index')->name('category');
 Route::post('/kategori', 'DashboardController@addCategory');
 Route::post('/dashboard/coupon', 'DashboardController@addCoupon')->name('addcoupon');
+Route::post('/dashboard/pengaturan/slider','DashboardController@storeSlider')->name('dashboard.slider.store');
+Route::get('/dashboard/pengaturan/slider/{slider}/hapus','DashboardController@destroySlider')->name('dashboard.slider.destroy');
 
 
 Route::get('/user','UserController@index')->name('user');
@@ -39,7 +41,7 @@ Route::get('/produk/tambah','ItemController@create')->name('additem');
 Route::post('/produk/tambah','ItemController@store');
 
 Route::get('/dashboard','DashboardController@index')->name('dashboard');
-Route::get('/dashboard/{board}/{subboard?}','DashboardController@dashboard')->name('board');
+Route::get('/dashboard/{board}/{subboard?}/{param?}','DashboardController@dashboard')->name('board');
 
 Route::get('/backend/produk', 'BackendController@itemIndex')->name('items');
 Route::get('/backend/produk/tambah', 'BackendController@itemCreate');//->name('additem');

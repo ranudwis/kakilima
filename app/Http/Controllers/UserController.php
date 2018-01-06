@@ -47,6 +47,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'gender' => 'required|in:M,F',
             'username' => 'required',
+            'password' => 'confirmed',
             'address' => 'required|min:10'
         ]);
         $email = User::select('id')->where('id','!=',auth()->id())->where('email',request('email'))->first();
@@ -57,7 +58,16 @@ class UserController extends Controller
         if(!empty($username)){
             return back()->withErrors(['username' => 'Username sudah digunakan']);
         }
-        auth()->user()->update(request()->all());
+        $update = request()->all();
+        if(empty($update["password"])){
+            unset($update["password"]);
+        }else{
+            $user = auth()->user()->password;
+            if(!\Hash::check($update["password_old"],$user)){
+                return back()->withErrors(['password_old' => 'Password salah']);
+            }
+        }
+        auth()->user()->update($update);
 
         return redirect()->route('user')->with('cm','Profil berhasil diedit');
     }
