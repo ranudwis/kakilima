@@ -12,7 +12,11 @@
             </div>
         </div>
         <div id="slider">
-            slider
+            @foreach($sliders as $slider)
+                <img src="{{ url(Storage::url($slider->filename)) }}" @if($loop->first) class="active" @endif>
+            @endforeach
+            <div class="control control-left"><i class="fa fa-chevron-left fa-fw"></i></div>
+            <div class="control control-right"><i class="fa fa-chevron-right fa-fw"></i></div>
         </div>
     </div>
     <div class="section">

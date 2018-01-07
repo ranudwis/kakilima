@@ -9,11 +9,12 @@ class HomeController extends Controller
     public function index(){
         $items = \App\Item::orderBy('sold','desc')->with('reviews')->take(5)->get();
         $categories = \App\Category::all();
+        $sliders = \DB::table('sliders')->select('filename')->get();
         if(!is_null($user = auth()->user())){
             $favorites = $user->favorites->toArray();
         }else{
             $favorites = [];
         }
-        return view('home',compact('items','favorites','categories'));
+        return view('home',compact('items','favorites','categories','sliders'));
     }
 }

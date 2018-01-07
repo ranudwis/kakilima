@@ -70,6 +70,45 @@ $(".addToFav").click(function(){
         }
     });
 });
+var waitClick = false;
+$("#slider .control-right").click(function(){
+    if(waitClick){
+        return;
+    }
+    waitClick = true;
+    var active = $("#slider img.active");
+    var next = active.next("img");
+    if(next.length == 0){
+        next = $("#slider img:first-child");
+        next.addClass("active");
+        active.removeClass("active");
+        $("#slider img.left").removeClass("left");
+    }else{
+        active.addClass("left");
+        next.addClass("active");
+        active.removeClass("active");
+    }
+    setTimeout(function(){waitClick=false},1000);
+})
+$("#slider .control-left").click(function(){
+    if(waitClick){
+        return;
+    }
+    waitClick = true;
+    var active = $("#slider img.active");
+    var next = active.prev("img");
+    if(next.length == 0){
+        next = $("#slider img:last-of-type");
+        next.addClass("active");
+        active.removeClass("active");
+        $("#slider img:not(.active)").addClass("left");
+    }else{
+        next.addClass("active");
+        next.removeClass("left");
+        active.removeClass("active");
+    }
+    setTimeout(function(){waitClick=false},1000);
+})
 var notification = document.getElementById("notification");
 var formlabels = document.getElementsByClassName("formlabel");
 if(typeof errors != "undefined"){
