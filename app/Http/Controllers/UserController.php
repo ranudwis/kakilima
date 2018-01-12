@@ -71,4 +71,14 @@ class UserController extends Controller
 
         return redirect()->route('user')->with('cm','Profil berhasil diedit');
     }
+
+    public function showFavorite(){
+        $favorites = auth()->user()->favorite;
+        return view('user.favorites',compact('favorites'));
+    }
+
+    public function showCart(){
+        $carts = auth()->user()->cart()->with('seller')->get()->groupBy('seller.name');
+        return view('user.carts',compact('carts'));
+    }
 }

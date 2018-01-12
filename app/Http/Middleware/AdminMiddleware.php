@@ -16,7 +16,7 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         if(!auth()->user()->isAdmin()){
-            return redirect()->route('home');
+            return redirect()->route('home')->withErrors(['cm' => 'Anda tidak berhak mengakses halaman ini']);
         }
         return $next($request);
     }

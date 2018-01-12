@@ -11,9 +11,9 @@ class HomeController extends Controller
         $categories = \App\Category::all();
         $sliders = \DB::table('sliders')->select('filename')->get();
         if(!is_null($user = auth()->user())){
-            $favorites = $user->favorites->toArray();
+            $favorites = $user->favorite;
         }else{
-            $favorites = [];
+            $favorites = collect([]);
         }
         return view('home',compact('items','favorites','categories','sliders'));
     }

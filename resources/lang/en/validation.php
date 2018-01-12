@@ -126,6 +126,7 @@ return [
         'photo' => 'foto',
         'code' => 'kode',
         'receipt' => 'resi',
+        'review' => 'ulasan',
     ],
 
 ];

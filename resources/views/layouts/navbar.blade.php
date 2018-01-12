@@ -33,12 +33,26 @@
                 <i class="fa fa-shopping-cart fa-fw navicon"></i>
                 <!-- <img src="{{ url('/images/cart.png') }}"> -->
                 <div id="cartCounter" class="counter">
-                    99
+                    {{ is_numeric($cart_count) ? $cart_count : 0 }}
                 </div>
             </a>
             <div id="cartList" class="dropdownList">
-                <a href="">aaa</a>
-                <a href="">aaa</a>
+                @if($carts_navbar->isEmpty())
+                    <div class="cartEmpty">Kamu belum punya barang apapun di keranjang</div>
+                @else
+                    @foreach($carts_navbar as $cart)
+                        <div class="cartItem">
+                            <img src="{{ url(Storage::url($cart->photo[0])) }}">
+                            <div class="information">
+                                <span class="name"><a href="{{ route('item.show',['item' => $cart->slug])}}">{{ $cart->name }}</a></span>
+                                <span class="price">{{ $cart->price }}</span>
+                                <span class="quantity">{{ $cart->pivot->quantity }} Barang</span>
+                            </div>
+                            <a href="{{ route('cart.remove',['item' => $cart->id]) }}" class="removeFromCart"><i class="fa fa-times"></i></a>
+                        </div>
+                    @endforeach
+                    <a href="{{ route('cart') }}">Lihat semua</a>
+                @endif
             </div>
         </div>
         @endunless
@@ -50,8 +64,10 @@
                     @if($admin)
                         <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i>Dashbor</a>
                     @else
-                        <a href="{{ route('additem') }}"><i class="fa fa-plus fa-fw"></i>Jual barang</a>
-                        <a href="{{ route('user') }}"><i class="fa fa-cog fa-fw"></i>Informasi akun</a>
+                        <a href="{{ route('favorite') }}"><i class="fa fa-heart fa-fw"></i> Barang favorit</a>
+                        <a href="{{ route('item.add') }}"><i class="fa fa-plus fa-fw"></i> Jual barang</a>
+                        <a href="{{ route('item.manage') }}"><i class="fa fa-tasks fa-fw"></i> Kelola barang</a>
+                        <a href="{{ route('user') }}"><i class="fa fa-cog fa-fw"></i> Informasi akun</a>
                     @endif
                     <a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i>Keluar</a>
                 </div>

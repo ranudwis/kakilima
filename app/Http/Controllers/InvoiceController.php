@@ -76,7 +76,9 @@ class InvoiceController extends Controller
     }
 
     public function show(Invoice $invoice){
-        $invoice->load('transactions.items','transactions.seller');
+        $invoice->load('transaction');
+        $invoice->transaction->load('item','seller');
+        dd($invoice);
         $userlogin = auth()->user();
         return view('backend.invoice.show',compact('invoice','userlogin'));
     }

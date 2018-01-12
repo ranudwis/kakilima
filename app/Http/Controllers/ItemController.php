@@ -35,7 +35,48 @@ class ItemController extends Controller
     }
 
     public function show(Item $item){
+        $item->view++;
+        $item->save();
+        $item->load('favorites','reviews','seller');
         $photos = $item->photo;
-        return view('items.show',compact('item','photos'));
+        $percentage = $item->seller->acceptPercentage();
+        return view('items.show',compact('item','photos','percentage'));
+    }
+
+    public function manage(){
+        $items = auth()->user()->items;
+        return view('items.manage',compact('items'));
+    }
+
+    public function addToCart($item,$quantity){
+        if(auth()->user()->cart->contains($item)){
+            return back()->withErrors(['cm' => 'Barang sudah ada di keranjang']);
+        }
+        auth()->user()->cart()->attach($item,['quantity' => $quantity]);
+        return back()->with('cm','Barang berhasil ditambahkan ke keranjang');
+    }
+
+    public function removeFromCart($item){
+        if(!auth()->user()->cart->contains($item)){
+            return back()->withErrors(['cm' => 'Barang tidak ada di keranjang']);
+        }
+        auth()->user()->cart()->detach($item);
+        return back()->with('cm','Barang dihapus dari keranjang');
+    }
+
+    public function addToFavorite($item){
+        if(auth()->user()->favorite->contains($item)){
+            return back()->withErrors(['cm' => 'Barang sudah ada di favorit']);
+        }
+        auth()->user()->favorite()->attach($item);
+        return back()->with('cm','Barang ditambahkan ke favorit');
+    }
+
+    public function removeFromFavorite($item){
+        if(!auth()->user()->favorite->contains($item)){
+            return back()->withErrors(['cm' => 'Barang tidak ada di favorit']);
+        }
+        auth()->user()->favorite()->detach($item);
+        return back()->with('cm','Barang dihapus dari favorit');
     }
 }

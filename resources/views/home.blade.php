@@ -24,28 +24,28 @@
         <div class="productWrapper">
             @foreach($items as $item)
                 <div class="product" id="{{ $item->slug }}">
-                    <a href="{{ route('showitem',['item'=>$item->slug]) }}"><img class="productImage" src="{{ url(Storage::url($item->photo[0])) }}"></a>
+                    <a href="{{ route('item.show',['item'=>$item->slug]) }}"><img class="productImage" src="{{ url(Storage::url($item->photo[0])) }}"></a>
                     <div class="productDescription">
                         <div class="productStars">
                             @php $stars = $item->calculateStars() @endphp
                             @for($i = 0; $i < $stars; $i++)
-                                <img src="{{ url('/images/star.png') }}">
+                                <i class="fa fa-star fa-fw"></i>
                             @endfor
                             @for($j = $i; $j < 5; $j++)
-                                <img src="{{ url('/images/starBlack.png') }}">
+                                <i class="fa fa-star-o fa-fw"></i>
                             @endfor
                             <span class="starsReviews">
                                 ({{ $stars }})
                             </span>
                         </div>
-                        <div class="productName"><a href="{{ route('showitem',['item'=>$item->slug]) }}">{{ $item->name }}</a></div>
-                        <div class="productPrice">Rp. {{ $item->price }}</div>
+                        <div class="productName"><a href="{{ route('item.show',['item'=>$item->slug]) }}">{{ $item->name }}</a></div>
+                        <div class="productPrice">{{ $item->price }}</div>
                     </div>
                     <div class="addToFav">
-                        @if(in_array($item->id,$favorites))
-                            <i class="fa fa-heart"></i>
+                        @if($favorites->contains($item->id))
+                            <a href="{{ route('favorite.remove',['item' => $item->id])}}"<i class="fa fa-heart"></i></a>
                         @else
-                            <i class="fa fa-heart-o"></i>
+                            <a href="{{ route('favorite.add',['item' => $item->id])}}"<i class="fa fa-heart-o"></i></a>
                         @endif
                     </div>
                 </div>

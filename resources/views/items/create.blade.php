@@ -4,7 +4,7 @@
 <div class="section linesection">
 <h2>Tambah Barang</h2>
 <div class="flexWrapper">
-<form method="post" class="regularform" action="{{ route('additem') }}" enctype="multipart/form-data">
+<form method="post" class="regularform" action="{{ route('item.add') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div>
         <div>Nama Barang</div>

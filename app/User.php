@@ -30,6 +30,7 @@ class User extends Authenticatable
 
     protected $username = 'username';
 
+
     public function setPasswordAttribute($value){
         $this->attributes['password'] = Hash::make($value);
     }
@@ -54,7 +55,7 @@ class User extends Authenticatable
         $query = $this->items()->create($req);
     }
 
-    public function transactions(){
+    public function transaction(){
         return $this->hasMany(Transaction::class);
     }
 
@@ -67,11 +68,11 @@ class User extends Authenticatable
     }
 
 
-    public function reviews(){
+    public function review(){
         return $this->hasMany(Review::class);
     }
 
-    public function favorites(){
+    public function favorite(){
         return $this->belongsToMany(Item::class,'favorites');
     }
 
@@ -83,7 +84,28 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class);
     }
 
-    public function invoices(){
+    public function invoice(){
         return $this->hasMany(Invoice::class);
+    }
+
+    public function acceptPercentage(){
+        $items = $this->disposals()->whereIn('status',['done','reject'])->selectRaw('count(*) as cnt')->groupBy('status')->orderBy('status')->get();
+        $reject = $items[1]->cnt ?? 0;
+        $done = $items[0]->cnt ?? 0;
+        if($reject == 0){
+            if($done == 0){
+                $percentage = 0;
+            }else{
+                $percentage = 100;
+            }
+        }else{
+            $done = $items[0]->cnt ?? 0;
+            $percentage = ($done/($done+$reject))*100;
+        }
+        return compact('reject','done','percentage');
+    }
+
+    public function itemCount(){
+        return $this->items->count();
     }
 }

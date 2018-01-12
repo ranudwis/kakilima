@@ -8,7 +8,7 @@ class Transaction extends Model
 {
     protected $guarded = ['id','user_id','status'];
 
-    public function items(){
+    public function item(){
         return $this->belongsToMany(Item::class)->withPivot('quantity');
     }
 

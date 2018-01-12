@@ -70,12 +70,57 @@ $(".addToFav").click(function(){
         }
     });
 });
+var starClick = 0;
+$(".starsButton label").hover(function(){
+    $(".starsButton label i").addClass("fa-star-o").removeClass("fa-star yellow");
+    $(this).children().removeClass("fa-star-o").addClass("fa-star yellow");
+    var prev = $(this).prevAll("label").children().removeClass("fa-star-o").addClass("fa-star yellow");
+},function(){
+    if(starClick == 0){
+        $(".starsButton label i").addClass("fa-star-o").removeClass("fa-star yellow");
+    }else{
+        var stars = $(".starsButton label i").addClass("fa-star-o").removeClass("fa-star yellow");
+        for(var i = 0; i < starClick; i++){
+            $(stars[i]).removeClass("fa-star-o").addClass("fa-star yellow");
+        }
+    }
+});
+$(".starsButton label").click(function(){
+    starClick = $(this).prev().val();
+});
 var waitClick = false;
+var slideClick = false;
+if($("#slider").length != 0){
+    setInterval(function(){
+        if(slideClick){
+            slideClick=false;
+            return;
+        }
+        if(waitClick){
+            return;
+        }
+        waitClick = true;
+        var active = $("#slider img.active");
+        var next = active.next("img");
+        if(next.length == 0){
+            next = $("#slider img:first-child");
+            next.addClass("active");
+            active.removeClass("active");
+            $("#slider img.left").removeClass("left");
+        }else{
+            active.addClass("left");
+            next.addClass("active");
+            active.removeClass("active");
+        }
+        setTimeout(function(){waitClick=false},1000);
+    },5000);
+}
 $("#slider .control-right").click(function(){
     if(waitClick){
         return;
     }
     waitClick = true;
+    slideClick = true;
     var active = $("#slider img.active");
     var next = active.next("img");
     if(next.length == 0){
@@ -95,6 +140,7 @@ $("#slider .control-left").click(function(){
         return;
     }
     waitClick = true;
+    slideClick = true;
     var active = $("#slider img.active");
     var next = active.prev("img");
     if(next.length == 0){
@@ -109,6 +155,44 @@ $("#slider .control-left").click(function(){
     }
     setTimeout(function(){waitClick=false},1000);
 })
+$(".imageViewer .otherImages img").click(function(){
+    $(".imageViewer .mainImage img").attr("src",$(this).attr("src"));
+})
+$(".productButton .decCartCount").click(function(){
+    var now = parseInt($(this).next().val());
+    if(isNaN(now)){
+        var next = 1;
+    }else if(now <= 1){
+        next = 1;
+    }else if(now >= $(this).next().attr("max")){
+        next = $(this).next().attr("max");
+    }else{
+        var next = now - 1;
+    }
+    $(this).next().val(next);
+})
+$(".productButton .incCartCount").click(function(){
+    var now = parseInt($(this).prev().val());
+    if(isNaN(now)){
+        var next = 1;
+    }else if(now >= $(this).prev().attr("max")){
+        next = $(this).prev().attr("max");
+    }else if(now < 1){
+        next = 1;
+    }else{
+        var next = now + 1;
+    }
+    $(this).prev().val(next);
+})
+function addCart(){
+    var count = $(".btnCart").prev().children('input').val();
+    if(isNaN(count)){
+        count = 1;
+    }
+    var target = $(".btnCart").attr("href") + "/" + count;
+    window.location = target;
+    return false;
+}
 var notification = document.getElementById("notification");
 var formlabels = document.getElementsByClassName("formlabel");
 if(typeof errors != "undefined"){

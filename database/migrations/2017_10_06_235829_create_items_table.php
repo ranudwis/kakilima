@@ -25,6 +25,7 @@ class CreateItemsTable extends Migration
             $table->integer('category_id');
             $table->integer('stock');
             $table->integer('sold')->default('0');
+            $table->bigInteger('view')->default('0');
             $table->text('photo');
             $table->timestamps();
         });

@@ -10,10 +10,10 @@ class Item extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
-    } 
+    }
 
-    public function vavorites(){
-        return $this->belongsToMany(Vavorite::class);
+    public function favorites(){
+        return $this->belongsToMany(User::class,'favorites');
     }
 
     public function transactions(){
@@ -26,6 +26,10 @@ class Item extends Model
 
     public function cart(){
         return $this->belongsToMany(Cart::class);;
+    }
+
+    public function seller(){
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function setPhotoAttribute($value){
@@ -58,7 +62,7 @@ class Item extends Model
     }
 
     public function reviews(){
-        return $this->hasMany(Review::class);
+        return $this->belongsToMany(User::class,'reviews')->withPivot(['stars','review']);
     }
 
     public function calculateStars(){
@@ -70,5 +74,17 @@ class Item extends Model
         }
         $count = $count == 0 ? 1 : $count;
         return round($total/$count,1);
+    }
+
+    public function getPriceAttribute($value){
+        return 'Rp'.number_format($value,0,',','.');
+    }
+
+    public function calculateTotal(){
+        return 'Rp'.number_format($this->getOriginal('price') * $this->pivot->quantity,0,',','.');
+    }
+
+    public function calculateTotalOriginal(){
+        return $this->getOriginal('price') * $this->pivot->quantity;
     }
 }
