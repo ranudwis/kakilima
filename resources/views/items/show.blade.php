@@ -78,7 +78,7 @@
         <div class="productInformation">
             <div class="description">
                 <h2>Deskripsi Barang</h2>
-                {{ $item->description }}
+                {!! nl2br(e($item->description)) !!}
             </div>
             <div class="comments">
                 <h2>Ulasan</h2>
@@ -92,35 +92,37 @@
                                     @for($i = 0; $i < $review->pivot->stars; $i++)
                                         <i class="fa fa-star yellow"></i>
                                     @endfor
-                                    @for($i = 0; $i < 5-$review->pivot->stars; $i++)
+                                    @for($j = $i; $j < 5; $j++)
                                         <i class="fa fa-star-o"></i>
                                     @endfor
                                 </div>
-                                <div class="reviewContent">{{ $review->pivot->review }}</div>
+                                <div class="reviewContent">{!! nl2br(e($review->pivot->review)) !!}</div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                <form method="post" action="{{ route('review.add',['item' => $item->id ])}}" class="regularForm singleForm halfForm">
-                    {{ csrf_field() }}
-                    <div>
-                        Tambah ulasan
-                    </div>
-                    <div>
-                        <textarea name="review"></textarea>
-                    </div>
-                    <div>
-                        <div class="starsButton">
-                            @for($i = 1;$i < 6; $i++)
+                @unless($item->seller->id == auth()->id())
+                    <form method="post" action="{{ route('review.add',['item' => $item->id ])}}" class="regularForm singleForm halfForm">
+                        {{ csrf_field() }}
+                        <div>
+                            Tambah ulasan
+                        </div>
+                        <div>
+                            <textarea name="review"></textarea>
+                        </div>
+                        <div>
+                            <div class="starsButton">
+                                @for($i = 1;$i < 6; $i++)
                                 <input type="radio" name="stars" value="{{ $i }}" id="stars-{{ $i }}">
                                 <label for="stars-{{ $i }}"><i class="fa fa-star-o"></i></label>
-                            @endfor
+                                @endfor
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <input type="submit" value="Tambah ulasan">
-                    </div>
-                </form>
+                        <div>
+                            <input type="submit" value="Tambah ulasan">
+                        </div>
+                    </form>
+                @endunless
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 @section('content')
 <div class="section linesection">
     <h2>Kelola barang</h2>
+    <a href="{{ route('item.add') }}" class="btn btnBlue btnanimation"><i class="fa fa-plus"></i> Tambah barang</a>
     <div class="flexWrapper productWrapper productManage">
         @foreach($items as $item)
             <div class="product" id="{{ $item->slug }}">
@@ -11,13 +12,13 @@
                     <div class="productStars">
                         @php $stars = $item->calculateStars() @endphp
                         @for($i = 0; $i < $stars; $i++)
-                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star fa-fw yellow"></i>
                         @endfor
                         @for($j = $i; $j < 5; $j++)
                             <i class="fa fa-star-o fa-fw"></i>
                         @endfor
                         <span class="starsReviews">
-                            ({{ $stars }})
+                            ({{ $stars ?? 0}})
                         </span>
                     </div>
                     <div class="productName"><a href="{{ route('item.show',['item'=>$item->slug]) }}">{{ $item->name }}</a></div>

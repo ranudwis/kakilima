@@ -41,7 +41,7 @@ class Item extends Model
     }
 
     public function setConditionAttribute($value){
-        $this->attributes['condition'] = $value == 'old' ? false : true;
+        $this->attributes['condition'] = $value == 'used' ? false : true;
     }
 
     public function setNameAttribute($value){
@@ -54,7 +54,7 @@ class Item extends Model
     }
 
     public function getConditionAttribute($value){
-        return $value ? "baru" : "bekas";
+        return $value == 1 ? "baru" : "bekas";
     }
 
     public function getPhotoAttribute($value){
@@ -66,14 +66,7 @@ class Item extends Model
     }
 
     public function calculateStars(){
-        $count = 0;
-        $total = 0;
-        foreach($this->reviews as $review){
-            $total += $review->stars;
-            $count++;
-        }
-        $count = $count == 0 ? 1 : $count;
-        return round($total/$count,1);
+        return $this->reviews->pluck('pivot.stars')->avg();
     }
 
     public function getPriceAttribute($value){
