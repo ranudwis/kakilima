@@ -43,7 +43,6 @@ class CartController extends Controller
             $check = Invoice::where('invoiceId',$invoiceId)->first();
         }while(!is_null($check));
 
-        $invoice = new Invoice();
         $invoice = auth()->user()->invoice()->create([
             'totalPrice' => $total,
             'invoiceId' => $invoiceId,
@@ -55,6 +54,42 @@ class CartController extends Controller
             'totalPrice' => $total
         ]);
         $transaction->item()->attach($attaches);
+
+        return redirect()->route('invoice.show',['invoice' => $invoiceId]);
+    }
+
+    public function processAll(){
+        $carts = auth()->user()->cart()->with('user')->get();
+        \DB::update("update items inner join carts on carts.item_id=items.id inner join users on users.id=items.user_id set items.stock=items.stock-carts.quantity,items.sold=items.sold+carts.quantity");
+        auth()->user()->cart()->detach($carts->pluck('id')->toArray());
+        $attaches = [];
+        $total = 0;
+        $price = [];
+        foreach($carts as $item){
+            $attaches[$item->user_id][$item->id] = ['quantity' => $item->pivot->quantity];
+            $temp = $item->calculateTotalOriginal();
+            $total += $temp;
+            @$price[$item->user_id] += $temp;
+        }
+        do{
+            $invoiceId = 'KL'.strtoupper(str_random(10));
+            $check = Invoice::where('invoiceId',$invoiceId)->get();
+        }while(!$check->isEmpty());
+
+        $invoice = auth()->user()->invoice()->create([
+            'totalPrice' => $total,
+            'invoiceId' => $invoiceId
+        ]);
+
+        foreach($price as $user => $pric){
+            $transaction = auth()->user()->transaction()->create([
+                'seller_id' => $user,
+                'invoice_id' => $invoice->id,
+                'totalPrice' => $pric
+            ]);
+
+            $transaction->item()->attach($attaches[$user]);
+        }
 
         return redirect()->route('invoice.show',['invoice' => $invoiceId]);
     }

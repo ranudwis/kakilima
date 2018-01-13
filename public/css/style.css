@@ -1144,57 +1144,72 @@ h1{
     max-height: 200px;
 }
 
-.cartWrapper{
+.subSectionWrapper{
     box-shadow: 0 0 1px black;
     padding: 16px;
     margin-bottom: 16px;
 }
-.cartWrapper h4{
+.subSectionWrapper h4{
     margin: 0 0 16px 0;
 }
-.cartWrapper .totalPerCart{
+.subSectionWrapper .totalPerCart{
     margin-top: 16px;;
     display: flex;
     align-items: center;
 }
-.cartWrapper .totalPerCart span{
+.subSectionWrapper .totalPerCart span{
     color: #17a99d;
     font-size: 20px;
     font-weight: bold;
     flex-basis: 20%;
 }
-.cartDetail{
+.subSectionItem{
     display: flex;
     box-shadow: 0 0 1px black;
     margin: 8px;
     padding: 8px;
     align-items: center;
 }
-.cartDetail img{
+.subSectionItem.column{
+    flex-direction: column;
+    align-items: flex-start;
+}
+.subSectionItem h4{
+    margin: 0;
+}
+.subSectionItem img{
     width: 64px;
     height: 64px;
     margin-right: 16px;
 }
-.cartDetail .name{
+.subSectionItem .smallImages{
+    margin-top: 8px;
+}
+.subSectionItem .smallImages img{
+    width: 48px;
+    height: 48px;
+    margin: 4px;
+}
+.subSectionItem .name{
     text-decoration: none;
     font-weight: bold;
     color: inherit;
 }
-.cartDetail .price{
+.subSectionItem .price{
     font-weight: bold;
     color: #17a99d;
     font-size: 18px;
     margin-top: 8px;
 }
-.cartDetail .description{
+.subSectionItem .description{
     flex-basis: 25%;
 }
-.cartDetail .times{
+.subSectionItem .times{
     margin-left: 32px;
     font-weight: bold;
     flex-basis: 10%;
 }
-.cartDetail .totalItem{
+.subSectionItem .totalItem{
     margin-left: 24px;
     font-weight: bold;
     color: #17a99d;

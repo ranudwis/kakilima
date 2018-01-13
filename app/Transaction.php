@@ -34,4 +34,12 @@ class Transaction extends Model
     public function seller(){
         return $this->belongsTo(User::class);
     }
+
+    public function calculateTotal(){
+        $total = 0;
+        foreach($this->item as $item){
+            $total += $item->getOriginal('price') * $item->pivot->quantity;
+        }
+        return $total;
+    }
 }

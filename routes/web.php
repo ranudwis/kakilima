@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('/barang')->group(function(){
+        Route::get('/','ItemController@manage')->name('item.manage');
         Route::get('/tambah','ItemController@create')->name('item.add');
-        Route::get('/kelola','ItemController@manage')->name('item.manage');
         Route::post('/tambah','ItemController@store');
         Route::get('/edit/{item}','ItemController@edit')->name('item.edit');
     });
@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('/invoice')->group(function(){
+        Route::get('/', 'InvoiceController@index')->name('invoice');
         Route::get('/{invoice}', 'InvoiceController@show')->name('invoice.show');
     });
 
@@ -79,7 +80,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/backend/pembelian', 'TransactionController@purchase')->name('purchase');
     Route::get('/backend/pembelian/{purchase}', 'TransactionController@showPurchase')->name('showpurchase');
     Route::get('/backend/pembelian/{purchase}/konfirmasi', 'TransactionController@confirmPurchase')->name('confirmpurchase');
-    Route::get('/invoice', 'InvoiceController@index')->name('invoice');
     Route::get('/invoice/add', 'InvoiceController@add')->name('addinvoice');
     Route::get('/invoice/{invoice}/bayar', 'InvoiceController@pay')->name('pay');
     Route::get('/invoice/{invoice}/konfirmasi', 'DashboardController@confirminvoice')->name('confirminvoice');

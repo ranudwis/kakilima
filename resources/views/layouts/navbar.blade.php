@@ -67,6 +67,7 @@
                         <a href="{{ route('favorite') }}"><i class="fa fa-heart fa-fw"></i> Barang favorit</a>
                         <a href="{{ route('item.add') }}"><i class="fa fa-plus fa-fw"></i> Jual barang</a>
                         <a href="{{ route('item.manage') }}"><i class="fa fa-tasks fa-fw"></i> Kelola barang</a>
+                        <a href="{{ route('invoice') }}"><i class="fa fa-credit-card fa-fw"></i> Transaksi</a>
                         <a href="{{ route('user') }}"><i class="fa fa-cog fa-fw"></i> Informasi akun</a>
                     @endif
                     <a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i>Keluar</a>

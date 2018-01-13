@@ -3,15 +3,16 @@
 @section('content')
     <div class="section linesection">
         <h2>Keranjang belanja</h2>
+        <a href="{{ route('cart.processAll') }}" class="btn btnBlue btnanimation" style="margin-bottom: 16px"><i class="fa fa-cogs fa-fw"></i> Proses semua</a>
         @if($carts->isEmpty())
             <div class="emptyCart">Kamu belum memiliki barang di keranjang</div>
         @endif
         @foreach($carts as $user)
             @php $total = 0; @endphp
-            <div class="cartWrapper">
+            <div class="subSectionWrapper">
                 <h4>Penjual: {{ $user[0]->seller->name }}</h4>
                 @foreach($user as $item)
-                    <div class="cartDetail">
+                    <div class="subSectionItem">
                         <img src="{{ url(Storage::url($item->photo[0])) }}" class="image">
                         <div class="description">
                             <a href="{{ route('item.show',['item' => $item->slug]) }}" class="name">{{ $item->name }}</a>
@@ -29,7 +30,7 @@
                 <div class="totalPerCart">
                     <span>Total: Rp{{ number_format($total,0,',','.') }}</span>
                     <a href="{{ route('cart.process',['cart' => $item->seller->id]) }}" class="btn btnBlue btnanimation">
-                        <i class="fa fa-cogs fa-fw"></i> Proses barang
+                        <i class="fa fa-cog fa-fw"></i> Proses transaksi
                     </a>
                 </div>
             </div>

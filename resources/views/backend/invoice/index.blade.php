@@ -3,7 +3,7 @@
 @section('content')
     @foreach($invoices as $invoice)
         <div>
-            <a href="{{ route('showinvoice',['invoice' => $invoice->invoiceId]) }}">{{ $invoice->invoiceId }}</a> {{ $invoice->status }}
+            <a href="{{ route('invoice.show',['invoice' => $invoice->invoiceId]) }}"><code>{{ $invoice->invoiceId }}</code></a> {{ $invoice->status }}
         </div>
     @endforeach
 @endsection

@@ -71,8 +71,8 @@ class InvoiceController extends Controller
     }
 
     public function index(){
-        $invoices = auth()->user()->invoices()->orderBy('id','desc')->get();
-        return view('backend.invoice.index',compact('invoices'));
+        $invoices = auth()->user()->invoice()->orderBy('id','desc')->with(['transaction.item:id,price,slug,photo','transaction.seller:id,name'])->get();
+        return view('invoice.index',compact('invoices'));
     }
 
     public function show(Invoice $invoice){
