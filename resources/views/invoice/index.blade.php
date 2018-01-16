@@ -7,9 +7,24 @@
             Kamu belum memilki transaksi apapun
         @endif
         @foreach($invoices as $invoice)
-            @php $total = 0; @endphp
             <div class="subSectionWrapper">
-                <h4>Invoice: <code>{{ $invoice->invoiceId }}</code></h4>
+                <h4>Invoice: <code>{{ $invoice->invoiceId }}</code>
+                    @switch($invoice->getOriginal('status'))
+                        @case('saved')
+                            <span class="status btn btnGray"><i class="fa fa-refresh fa-fw"></i>
+                            @break
+                        @case('wait')
+                            <span class="status btn btnBlue"><i class="fa fa-hourglass-half fa-fw"></i>
+                            @break
+                        @case('paid')
+                            <span class="status btn btnGreen"><i class="fa fa-credit-card fa-fw"></i>
+                            @break
+                        @case('reject')
+                            <span class="status btn btnRed"><i class="fa fa-times fa-fw"></i>
+                            @break
+                    @endswitch
+                    {{ $invoice->status }}
+                 </h4>
                 <a href="{{ route('invoice.show',['invoice' => $invoice->invoiceId]) }}" class="btn btnBlue btnanimation">Selengkapnya <i class="fa fa-chevron-right"></i></a>
                 @foreach($invoice->transaction as $transaction)
                     <div class="subSectionItem column">
@@ -22,12 +37,11 @@
                                 </a>
                             @endforeach
                         </div>
-                        @php $temp = $transaction->calculateTotal(); $total += $temp @endphp
-                        <div class="price">{{ 'Rp'.number_format($temp,0,',','.') }}</div>
+                        <div class="price">{{ $transaction->totalPrice }}</div>
                     </div>
                 @endforeach
                 <div class="totalPerCart">
-                    <span>Total: {{ 'Rp'.number_format($total,0,',','.') }}</span>
+                    <span>{{ $invoice->totalPrice }}</span>
                 </div>
             </div>
         @endforeach

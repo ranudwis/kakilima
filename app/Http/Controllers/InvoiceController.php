@@ -76,30 +76,100 @@ class InvoiceController extends Controller
     }
 
     public function show(Invoice $invoice){
-        $invoice->load('transaction');
-        $invoice->transaction->load('item','seller');
-        dd($invoice);
-        $userlogin = auth()->user();
-        return view('backend.invoice.show',compact('invoice','userlogin'));
+        $invoice->load('transaction','coupon:id,code');
+        $invoice->transaction->load('item:id,name,slug,photo,price','seller:id,name');
+        $userAddress = auth()->user()->address;
+        $statusText = [
+            'saved' => 'refresh',
+            'wait' => 'hourglass-half',
+            'paid' => 'credit-card',
+            'sent' => 'truck',
+            'done' => 'check',
+        ];
+        return view('invoice.show',compact('invoice','userAddress','statusText'));
     }
 
-    public function pay(Invoice $invoice){
-        $payPrice = $invoice->totalPrice - $invoice->cutoffPrice.','.rand(111,555);
+    public function pay($invoice){
+        $invoice = auth()->user()->invoice()->where('invoiceId',$invoice)->firstOrFail();
+        $payPrice = $invoice->getOriginal('totalPrice') - $invoice->cutoffPrice.'.'.rand(111,555);
         $invoice->payPrice = $payPrice;
         $invoice->status = 'wait';
         $invoice->save();
 
-        if(!empty($invoice->cutoffPrice)){
-            foreach($invoice->transactions as $transaction){
-                $percentage = $transaction->totalPrice * 100 / $invoice->totalPrice;
-                $transactionCut = $percentage / 100 * $invoice->cutoffPrice;
-                $transactionCut = round($transactionCut,3);
-                $transaction->cutoffPrice = $transactionCut;
-                $transaction->save();
-            }
+        $invoice->transaction()->update(['status' => 'wait']);
+
+        return back();
+    }
+
+    public function useCoupon($invoice){
+        $this->validate(request(),[
+            'code' => 'required|exists:coupons,code'
+        ]);
+        $coupon = \App\Coupon::where('code',request('code'))->first();
+        $invoice = auth()->user()->invoice()->where('invoiceId',$invoice)->firstOrFail();
+
+        $total = $invoice->getOriginal('totalPrice');
+        $discount = ($coupon->discount/100)*$total;
+        $discount = $discount < $coupon->maximum ? $discount : $coupon->maximum;
+        if($total < $coupon->getOriginal('minimum')){
+            return back()->withError('code','Minimal transaksi adalah '.$coupon->minimum);
+        }
+        $invoice->cutoffPrice = $discount;
+        $invoice->coupon()->associate($coupon);
+        $invoice->save();
+
+        foreach($invoice->transaction as $transaction){
+            $totalPrice = $transaction->getOriginal('totalPrice');
+            $transactionDiscount = $discount * ($totalPrice / $total);
+            $transaction->cutoffPrice = round($transactionDiscount,3);
+            $transaction->save();
+        }
+        return back()->with('cm','Kode kupon digunakan');
+    }
+
+    public function uploadPayment($invoice){
+        $this->validate(request(),[
+            'payment' => 'required|image'
+        ]);
+        $invoice = auth()->user()->invoice()->where('invoiceId',$invoice)->firstOrFail();
+        if(!is_null($invoice->paymentInfo)){
+            \Storage::delete($invoice->paymentInfo);
+        }
+        $invoice->paymentInfo = request('payment')->store('public/payment');
+        $invoice->save();
+        return back()->with('cm','Mohon tunggu konfirmasi pembayaran Anda oleh admin');
+    }
+
+    public function confirm(Invoice $invoice){
+        $invoice->load('transactions.seller');
+        $insert = [];
+        $transactionIds = [];
+        foreach($invoice->transactions as $transaction){
+            $transactionIds[] = $transaction->id;
+
+            $data = [
+                'disposal' => $transaction->id
+            ];
+
+            $notification = new Notification();
+            $notification->user_id = $transaction->seller->id;
+            $notification->text = 'Kamu mendapatkan pesanan baru';
+            $notification->action = 'showdisposal';
+            $notification->data = json_encode($data);
+            $notification->save();
         }
 
-        $userlogin = auth()->user();
-        return redirect()->route('showinvoice',['invoice' => $invoice->invoiceId]);
+        Transaction::whereIn('id',$transactionIds)->update([
+            'status' => 'paid'
+        ]);
+
+        // Notification::create($insert);
+
+        $invoice->status = 'paid';
+        $invoice->save();
+
+        session()->flash('cm', 'Transaksi berhasil dikonfirmasi');
+
+        return back();
     }
 }

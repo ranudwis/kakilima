@@ -51,7 +51,7 @@ class CartController extends Controller
         $transaction = auth()->user()->transaction()->create([
             'seller_id' => $user,
             'invoice_id' => $invoice->id,
-            'totalPrice' => $total
+            'totalPrice' => $total,
         ]);
         $transaction->item()->attach($attaches);
 

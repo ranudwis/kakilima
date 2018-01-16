@@ -108,7 +108,9 @@
                             Tambah ulasan
                         </div>
                         <div>
-                            <textarea name="review"></textarea>
+                            <div>
+                                <textarea name="review"></textarea>
+                            </div>
                         </div>
                         <div>
                             <div class="starsButton">

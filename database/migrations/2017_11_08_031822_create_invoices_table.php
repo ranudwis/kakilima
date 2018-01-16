@@ -19,6 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->string('totalPrice');
             $table->string('cutoffPrice')->nullable();
             $table->string('payPrice')->nullable();
+            $table->string('paymentInfo')->nullable();
             $table->string('invoiceId')->nullable();
             $table->integer('coupon_id')->nullable();
             $table->enum('status',['saved','wait','paid','reject'])->default('saved');

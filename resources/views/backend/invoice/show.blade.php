@@ -4,7 +4,7 @@
     <h1>{{ $invoice->invoiceId }}</h1>
     <div>{{ $invoice->status }}</div>
     <br>
-    @foreach($invoice->transactions as $transaction)
+    @foreach($invoice->transaction as $transaction)
         <b>{{ $transaction->seller->name }} {{ $transaction->totalPrice }}</b>
         @foreach($transaction->items as $item)
             <div>{{ $item->pivot->quantity}} <a href="{{ route('showitem', ['item' => $item->slug]) }}">{{ $item->name}}</a> {{ $item->price * $item->pivot->quantity }}</div>

@@ -60,7 +60,10 @@ Route::middleware('auth')->group(function(){
 
     Route::prefix('/invoice')->group(function(){
         Route::get('/', 'InvoiceController@index')->name('invoice');
+        Route::post('/{invoice}/kupon','InvoiceController@useCoupon')->name('invoice.usecoupon');
         Route::get('/{invoice}', 'InvoiceController@show')->name('invoice.show');
+        Route::get('/bayar/{invoice}','InvoiceController@pay')->name('invoice.pay');
+        Route::post('/pembayaran/{invoice}','InvoiceController@uploadPayment')->name('invoice.uploadPayment');
     });
 
     Route::prefix('/ulasan')->group(function(){
@@ -82,8 +85,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/backend/pembelian/{purchase}/konfirmasi', 'TransactionController@confirmPurchase')->name('confirmpurchase');
     Route::get('/invoice/add', 'InvoiceController@add')->name('addinvoice');
     Route::get('/invoice/{invoice}/bayar', 'InvoiceController@pay')->name('pay');
-    Route::get('/invoice/{invoice}/konfirmasi', 'DashboardController@confirminvoice')->name('confirminvoice');
-    Route::get('/invoice/{invoice}/tolak', 'DashboardController@rejectinvoice')->name('rejectinvoice');
 
     Route::get('/notifikasi', 'NotificationController@index')->name('notification');
     Route::get('/notifikasi/{notification}', 'NotificationController@show')->name('shownotification');
@@ -92,9 +93,13 @@ Route::middleware('auth')->group(function(){
 Route::middleware(['auth','admin'])->group(function(){
     Route::post('/dashboard/coupon', 'DashboardController@addCoupon')->name('addcoupon');
     Route::post('/dashboard/pengaturan/slider','DashboardController@storeSlider')->name('dashboard.slider.store');
+    Route::post('/dashboard/pengaturan/rekening','DashboardController@storePayment')->name('dashboard.payment.store');
     Route::get('/dashboard/pengaturan/slider/{slider}/hapus','DashboardController@destroySlider')->name('dashboard.slider.destroy');
     Route::get('/dashboard','DashboardController@index')->name('dashboard');
     Route::get('/dashboard/{board}/{subboard?}/{param?}','DashboardController@dashboard')->name('board');
+
+    Route::get('/invoice/{invoice}/konfirmasi', 'InvoiceController@confirm')->name('invoice.confirm');
+    Route::get('/invoice/{invoice}/tolak', 'DashboardController@rejectinvoice')->name('invoice.reject');
 });
 
 

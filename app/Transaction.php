@@ -18,7 +18,7 @@ class Transaction extends Model
 
     public function getStatusAttribute($value){
         switch($value){
-            case 'saved': return 'Disimpan';break;
+            case 'saved': return 'Menunggu proses';break;
             case 'wait': return 'Menunggu pembayaran';break;
             case 'paid': return 'Dibayar';break;
             case 'reject': return 'Ditolak';break;
@@ -31,6 +31,11 @@ class Transaction extends Model
         return empty($value) ? 0 : $value;
     }
 
+    public function totalPriceCut(){
+        $cut = $this->getOriginal('totalPrice') - $this->cutoffPrice;
+        return 'Rp'.number_format($cut,0,',','.');
+    }
+
     public function seller(){
         return $this->belongsTo(User::class);
     }
@@ -41,5 +46,9 @@ class Transaction extends Model
             $total += $item->getOriginal('price') * $item->pivot->quantity;
         }
         return $total;
+    }
+
+    public function getTotalPriceAttribute($value){
+        return 'Rp'.number_format($value,0,',','.');
     }
 }

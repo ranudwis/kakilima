@@ -11,4 +11,8 @@ class Coupon extends Model
     public function setCodeAttribute($value){
         $this->attributes['code'] = strtoupper($value);
     }
+
+    public function getMinimumAttribute($value){
+        return 'Rp'.number_format($value,0,',','.');
+    }
 }

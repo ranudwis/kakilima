@@ -37,7 +37,7 @@ body{
     background-color: #19BBAE;
 }
 #navbar.scroll{
-    box-shadow: 0 0 2px black;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 #navbar > div{
     display: inline-flex;
@@ -73,7 +73,6 @@ body{
 .cartItem{
     margin: 4px 0;
     padding: 4px;
-    box-shadow: 0 0 1px black;
     display: flex;
     position: relative;
 }
@@ -215,7 +214,6 @@ body{
     display: inline-flex !important;
     align-items: center;
     padding: 4px 12px;
-    border-radius: 5px;
 }
 #userButton > a i{
     color: white;
@@ -275,9 +273,22 @@ h1{
 .regularform > div div:nth-child(2){
     flex: 1 0 60%;
 }
+.singleForm{
+    margin: 0;
+}
+.singleForm > div div:first-child{
+    flex: 0 0 100% !important;
+}
+.singleForm > div{
+    margin: 4px 0;
+}
+.singleForm input[type=text]{
+    padding: 8px;
+}
 .regularform .formError{
     transform: translateY(-50%);
     right: 8px;
+    z-index: 100;
 }
 .regularForm select{
     width: 100%;
@@ -372,6 +383,12 @@ h1{
     color: white;
     font-weight: bold;
     width: 100%;
+}
+.singleForm input[type=submit]{
+    padding: 8px;
+    margin-top: 8px;
+    font-weight: normal;
+    width: initial;
 }
 .regularform input[type=submit].smallbutton{
     width: initial  ;
@@ -552,11 +569,22 @@ h1{
     margin: 32px 0px;
     background-color: white;
     padding: 16px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
     position: relative;
+    flex: 1 0 70%;
+}
+.sideSection{
+    margin: 32px 0px;
+    padding: 16px;
+    flex: 0 0 20%;
+}
+.sideSection h2{
+    margin: 0;
 }
 .flexWrapper{
     display: flex;
+}
+.flexWrapper .section,.flexWrapper .sideSection{
+    margin-top: 0;
 }
 .section h2{
     color: #333;
@@ -618,14 +646,14 @@ h1{
     padding:4px;
 }
 .productDescription{
-    padding: 0 12px;
+    padding: 12px;
     justify-content: space-between;
     flex: 0 1 70%;
 }
 .sellerInformation{
     display: flex;
     align-items: center;
-    box-shadow: 0 0 1px black;
+    /* box-shadow: 0 0 1px black; */
     margin-top: 16px;
     justify-content: space-between;
 }
@@ -672,7 +700,7 @@ h1{
 }
 .productDescription table{
     border-collapse: collapse;
-    box-shadow: 0 0 1px black;
+    /* box-shadow: 0 0 1px black; */
     width: 100%;
 }
 .productDescription .price{
@@ -794,7 +822,6 @@ h1{
     background-color: #17a99d;
     padding: 8px;
     text-decoration: none;
-    border-radius: 5px;
 }
 
 .officialProduct{
@@ -1020,6 +1047,12 @@ h1{
 .btnanim{
     position: relative;
 }
+.btnFull{
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .btnanimation::after{
     content: '';
     position: absolute;
@@ -1145,12 +1178,15 @@ h1{
 }
 
 .subSectionWrapper{
-    box-shadow: 0 0 1px black;
+    border-radius: 2px;
     padding: 16px;
     margin-bottom: 16px;
 }
 .subSectionWrapper h4{
     margin: 0 0 16px 0;
+}
+.subSectionWrapper h4 .status{
+    font-weight: normal;
 }
 .subSectionWrapper .totalPerCart{
     margin-top: 16px;;
@@ -1165,7 +1201,6 @@ h1{
 }
 .subSectionItem{
     display: flex;
-    box-shadow: 0 0 1px black;
     margin: 8px;
     padding: 8px;
     align-items: center;
@@ -1226,7 +1261,7 @@ h1{
 }
 
 .review{
-    box-shadow: 0 0 1px black;
+    /* box-shadow: 0 0 1px black; */
     padding: 8px;
     margin: 8px;
     display: flex;
@@ -1239,4 +1274,81 @@ h1{
 }
 .review .name{
     font-weight: bold;
+}
+.processWrapper{
+    display: flex;
+    justify-content: center;
+}
+.processWrapper div{
+    width: 64px;
+    height: 64px;
+    background-color: white;
+    border-radius: 50%;
+    margin: 8px;
+    display: inline-block;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+}
+.processWrapper div.active{
+    background-color: #2E7D32;
+    color: white;
+}
+.invoiceInformation{
+    margin-top: 16px;
+}
+.invoiceInformation > div{
+    margin: 8px 0;
+}
+.invoiceInformation .totalPrice{
+    font-weight: bold;
+    font-size: 24px;
+    color: #17a99d;
+}
+.invoiceInformation .totalPrice.cut{
+    text-decoration: line-through;
+    color: #999;
+    margin-bottom: 0;
+}
+.invoiceInformation .totalPrice + .cutPrice{
+    margin-top: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #17a99d;
+}
+.h-separator{
+    height: 1px;
+    background-color: #ccc;
+    box-shadow: 0 0 1px #ccc;
+    margin: 16px 0;
+}
+.processWrapper + .status{
+    text-align: center;
+}
+.subSectionWrapper .status{
+    font-weight: bold;
+    margin: 16px 0;
+}
+.subSectionWrapper .totalPrice{
+    font-size: 20px;
+    font-weight: bold;
+    color: #17a99d;
+    margin-top: 8px;
+}
+.subSectionWrapper .totalPrice.cut{
+    text-decoration: line-through;
+    color: #999;
+    margin-bottom: 0;
+}
+.subSectionWrapper .totalPrice + .cutPrice{
+    margin-top: 0;
+    font-size: 14px;
+    color: #17a99d;
+    font-weight: bold;
+}
+.sideSection .paymentNumber{
+    font-weight: bold;
+    font-size: 20px;
 }

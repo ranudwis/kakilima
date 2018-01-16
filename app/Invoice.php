@@ -14,19 +14,11 @@ class Invoice extends Model
 
     public function getStatusAttribute($value){
         switch($value){
-            case 'saved': return 'Disimpan';break;
+            case 'saved': return 'Menunggu proses';break;
             case 'paid': return 'Dibayar';break;
             case 'reject': return 'Ditolak';break;
             case 'wait': return 'Menunggu pembayaran';break;
         }
-    }
-
-    public function getPayPriceAttribute($value){
-        return $value;
-    }
-
-    public function getTotalPriceAttribute($value){
-        return $value;
     }
 
     public function getCutoffPriceAttribute($value){
@@ -34,11 +26,28 @@ class Invoice extends Model
         return $value;
     }
 
+    public function totalPriceCut(){
+        if($this->getOriginal('status') == 'saved'){
+            $cut = $this->getOriginal('totalPrice') - $this->cutoffPrice;
+        }else{
+            return 'Rp'.number_format($this->payPrice,3,',','.');
+        }
+        return 'Rp'.number_format($cut,0,',','.');
+    }
+
     public function transaction(){
         return $this->hasMany(Transaction::class);
     }
 
+    public function coupon(){
+        return $this->belongsTo(Coupon::class);
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function getTotalPriceAttribute($value){
+        return 'Rp'.number_format($value,0,',','.');
     }
 }

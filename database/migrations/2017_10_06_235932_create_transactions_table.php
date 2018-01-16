@@ -22,7 +22,7 @@ class CreateTransactionsTable extends Migration
             $table->string('cutoffPrice')->nullable();
             $table->string('receiptNumber')->nullable();
             $table->boolean('feedback')->nullable();
-            $table->enum('status',['saved','paid','reject','sent','done'])->default('saved');
+            $table->enum('status',['saved','wait','paid','reject','sent','done'])->default('saved');
             $table->timestamps();
         });
 

@@ -4,6 +4,7 @@
         <tr>
             <th>Invoice</th>
             <th>Pembayaran</th>
+            <th>Bukti pembayaran</th>
             <th>Pengguna</th>
             <th>Dibayar</th>
             <th>Aksi</th>
@@ -12,11 +13,12 @@
             <tr>
                 <td>{{ $invoice->invoiceId }}</td>
                 <td>{{ $invoice->payPrice }}</td>
+                <td><a href="{{ url(Storage::url($invoice->paymentInfo)) }}" target="_blank" class="btn btnBlue"><i class="fa fa-external-link fa-fw"></i></a></td>
                 <td>{{ $invoice->user->email }}</td>
                 <td>{{ $invoice->updated_at }}</td>
                 <td>
-                    <a href="{{ route('confirminvoice',['invoice' => $invoice->invoiceId]) }}" class="btn btnblue btnanimation">Konfirmasi</a>
-                    <a href="{{ route('rejectinvoice',['invoice' => $invoice->invoiceId]) }}" class="btn btnred btnanimation">Tolak</a>
+                    <a href="{{ route('invoice.confirm',['invoice' => $invoice->invoiceId]) }}" class="btn btnblue btnanimation"><i class="fa fa-check fa-fw"></i> Konfirmasi</a>
+                    <a href="{{ route('invoice.reject',['invoice' => $invoice->invoiceId]) }}" class="btn btnred btnanimation"><i class="fa fa-times fa-fw"></i> Tolak</a>
                 </td>
             </tr>
         @endforeach

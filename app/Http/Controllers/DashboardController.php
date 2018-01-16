@@ -44,7 +44,7 @@ class DashboardController extends Controller
                 }
                 break;
             case "transaksi":
-                $data = Invoice::where('status','wait')->with('user')->orderBy('updated_at','desc')->get();
+                $data = Invoice::where('status','wait')->where('paymentInfo','!=','null')->with('user')->orderBy('updated_at','desc')->get();
                 break;
             case "pengaturan":
                 switch($subdash){

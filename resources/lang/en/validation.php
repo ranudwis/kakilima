@@ -127,6 +127,7 @@ return [
         'code' => 'kode',
         'receipt' => 'resi',
         'review' => 'ulasan',
+        'payment' => 'konfirmasi pembayaran'
     ],
 
 ];
