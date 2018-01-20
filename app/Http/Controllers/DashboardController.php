@@ -96,16 +96,17 @@ class DashboardController extends Controller
             $notification = new Notification();
             $notification->user_id = $transaction->seller->id;
             $notification->text = 'Kamu mendapatkan pesanan baru';
-            $notification->action = 'showdisposal';
+            $notification->action = 'disposal.show';
             $notification->data = json_encode($data);
             $notification->save();
         }
 
         Transaction::whereIn('id',$transactionIds)->update([
-            'status' => 'paid'
+            'status' => 'paid',
         ]);
 
         // Notification::create($insert);
+
 
         $invoice->status = 'paid';
         $invoice->save();

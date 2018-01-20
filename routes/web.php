@@ -24,6 +24,10 @@ Route::middleware('guest')->group(function(){
     Route::post('/daftar', 'RegistrationController@store');
 });
 
+Route::prefix('/b')->group(function(){
+    Route::get('/','ItemController@index')->name('item');
+});
+
 Route::middleware('auth')->group(function(){
     Route::get('/keluar', 'SessionController@destroy')->name('logout');
 
@@ -58,17 +62,33 @@ Route::middleware('auth')->group(function(){
         Route::get('/prosessemua','CartController@processAll')->name('cart.processAll');
     });
 
-    Route::prefix('/invoice')->group(function(){
+    Route::prefix('/pembelian')->group(function(){
         Route::get('/', 'InvoiceController@index')->name('invoice');
         Route::post('/{invoice}/kupon','InvoiceController@useCoupon')->name('invoice.usecoupon');
         Route::get('/{invoice}', 'InvoiceController@show')->name('invoice.show');
         Route::get('/bayar/{invoice}','InvoiceController@pay')->name('invoice.pay');
         Route::post('/pembayaran/{invoice}','InvoiceController@uploadPayment')->name('invoice.uploadPayment');
+        Route::get('/terima/{transaction}','TransactionController@done')->name('transaction.done');
+    });
+
+    Route::prefix('/pemjualan')->group(function(){
+        Route::get('/','TransactionController@index')->name('disposal');
+        Route::get('/{disposal}', 'TransactionController@show')->name('disposal.show');
+        Route::get('/{disposal}/tolak', 'TransactionController@reject')->name('disposal.reject');
+        Route::post('/{disposal}/kirim','TransactionController@send')->name('disposal.send');
+    // Route::get('/backend/penjualan', 'TransactionController@disposal')->name('disposal');
+    // Route::post('/backend/penjualan/{disposal}/konfirmasi', 'TransactionController@confirmDisposal')->name('confirmdisposal');
+    // Route::get('/backend/penjualan/{disposal}/tolak', 'TransactionController@rejectDisposal')->name('rejectdisposal');
     });
 
     Route::prefix('/ulasan')->group(function(){
         Route::post('/{item}','ReviewController@store')->name('review.add');
     });
+
+    Route::get('/notifikasi', 'NotificationController@index')->name('notification');
+    Route::get('/notifikasi/tandaibaca', 'NotificationController@read')->name('notification.read');
+    Route::get('/notifikasi/{notification}', 'NotificationController@show')->name('notification.show');
+
 
     //TODO
 
@@ -76,18 +96,12 @@ Route::middleware('auth')->group(function(){
     Route::get('/backend/keranjang', 'CartController@index')->name('viewcart');
     Route::post('/coupon', 'CouponController@use')->name('usecoupon');
 
-    Route::get('/backend/penjualan', 'TransactionController@disposal')->name('disposal');
-    Route::get('/backend/penjualan/{disposal}', 'TransactionController@showDisposal')->name('showdisposal');
-    Route::post('/backend/penjualan/{disposal}/konfirmasi', 'TransactionController@confirmDisposal')->name('confirmdisposal');
-    Route::get('/backend/penjualan/{disposal}/tolak', 'TransactionController@rejectDisposal')->name('rejectdisposal');
     Route::get('/backend/pembelian', 'TransactionController@purchase')->name('purchase');
     Route::get('/backend/pembelian/{purchase}', 'TransactionController@showPurchase')->name('showpurchase');
     Route::get('/backend/pembelian/{purchase}/konfirmasi', 'TransactionController@confirmPurchase')->name('confirmpurchase');
     Route::get('/invoice/add', 'InvoiceController@add')->name('addinvoice');
     Route::get('/invoice/{invoice}/bayar', 'InvoiceController@pay')->name('pay');
 
-    Route::get('/notifikasi', 'NotificationController@index')->name('notification');
-    Route::get('/notifikasi/{notification}', 'NotificationController@show')->name('shownotification');
 });
 
 Route::middleware(['auth','admin'])->group(function(){
@@ -99,7 +113,7 @@ Route::middleware(['auth','admin'])->group(function(){
     Route::get('/dashboard/{board}/{subboard?}/{param?}','DashboardController@dashboard')->name('board');
 
     Route::get('/invoice/{invoice}/konfirmasi', 'InvoiceController@confirm')->name('invoice.confirm');
-    Route::get('/invoice/{invoice}/tolak', 'DashboardController@rejectinvoice')->name('invoice.reject');
+    Route::get('/invoice/{invoice}/tolak', 'InvoiceController@reject')->name('invoice.reject');
 });
 
 

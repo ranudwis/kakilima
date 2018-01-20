@@ -12,6 +12,10 @@ class ItemController extends Controller
         $this->middleware('auth')->only('create','store','edit','update');
     }
 
+    public function index(){
+        return view('items.index');
+    }
+
     public function create(){
         $categories = Category::all();
         return view('items.create',compact('categories'));

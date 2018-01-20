@@ -28,6 +28,26 @@
     </div>
     <div id="rightMenu">
         @unless($admin)
+        <div id="notificationSection" class="dropdownSection">
+            <a href="{{ route('notification') }}" id="notifications">
+                <i class="fa fa-bell fa-fw navicon"></i>
+                <div class="counter">
+                    {{ is_numeric($notification_count) ? $notification_count : 0 }}
+                </div>
+            </a>
+            <div class="dropdownList">
+                @if($notification_navbar->isEmpty())
+                    <div class="dropdownListEmpty">Kamu belum punya notifikasi</div>
+                @else
+                    @foreach($notification_navbar as $notif)
+                        <div>
+                            <a href="{{ route('notification.show',['notification' => $notif->id]) }}">{{ $notif->text }}</a>
+                        </div>
+                    @endforeach
+                    <a href="{{ route('notification') }}">Lihat semua</a>
+                @endif
+            </div>
+        </div>
         <div id="cartSection" class="dropdownSection">
             <a href="{{ route('viewcart') }}" id="cart">
                 <i class="fa fa-shopping-cart fa-fw navicon"></i>
@@ -38,7 +58,7 @@
             </a>
             <div id="cartList" class="dropdownList">
                 @if($carts_navbar->isEmpty())
-                    <div class="cartEmpty">Kamu belum punya barang apapun di keranjang</div>
+                    <div class="dropdownListEmpty">Kamu belum punya barang apapun di keranjang</div>
                 @else
                     @foreach($carts_navbar as $cart)
                         <div class="cartItem">
@@ -67,7 +87,8 @@
                         <a href="{{ route('favorite') }}"><i class="fa fa-heart fa-fw"></i> Barang favorit</a>
                         <a href="{{ route('item.add') }}"><i class="fa fa-plus fa-fw"></i> Jual barang</a>
                         <a href="{{ route('item.manage') }}"><i class="fa fa-tasks fa-fw"></i> Kelola barang</a>
-                        <a href="{{ route('invoice') }}"><i class="fa fa-credit-card fa-fw"></i> Transaksi</a>
+                        <a href="{{ route('invoice') }}"><i class="fa fa-credit-card fa-fw"></i> Pembelian</a>
+                        <a href="{{ route('disposal') }}"><i class="fa fa-credit-card-alt fa-fw"></i> Penjualan</a>
                         <a href="{{ route('user') }}"><i class="fa fa-cog fa-fw"></i> Informasi akun</a>
                     @endif
                     <a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i>Keluar</a>

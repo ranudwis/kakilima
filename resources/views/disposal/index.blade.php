@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="section linesection">
-        <h2>Pembelian</h2>
-        @if($invoices->isEmpty())
-            Kamu belum memilki transaksi apapun
+        <h2>Penjualan</h2>
+        @if($disposals->isEmpty())
+            Kamu belum punya riwayat penjualan
         @endif
-        @foreach($invoices as $invoice)
+        @foreach($disposals as $disposal)
             <div class="subSectionWrapper">
-                <h4>Invoice: <code>{{ $invoice->invoiceId }}</code>
-                    @switch($invoice->getOriginal('status'))
+                <h4>Transaksi <code>#{{ $disposal->id }}</code>
+                    @switch($disposal->getOriginal('status'))
                         @case('saved')
                             <span class="status btn btnGray"><i class="fa fa-refresh fa-fw"></i>
                             @break
@@ -23,22 +23,18 @@
                             <span class="status btn btnRed"><i class="fa fa-times fa-fw"></i>
                             @break
                     @endswitch
-                    {{ $invoice->status }}
-                 </h4>
-                <a href="{{ route('invoice.show',['invoice' => $invoice->invoiceId]) }}" class="btn btnBlue btnanimation">Selengkapnya <i class="fa fa-chevron-right"></i></a>
-                <div class="totalPrice">{{ $invoice->totalPrice }}</div>
+                    {{ $disposal->status }}
+                </h4>
+                <a href="{{ route('disposal.show',['disposal' => $disposal->id]) }}" class="btn btnBlue btnanimation">Selengkapnya <i class="fa fa-chevron-right"></i></a>
+                <div class="totalPrice">{{ $disposal->totalPrice }}</div>
                 <div class="subSectionItem column">
                     <div class="smallImages">
-                        @foreach($invoice->transaction as $transaction)
-                            @foreach($transaction->item as $item)
-                                <a href="{{ route('item.show',['item' => $item->slug]) }}">
-                                    <img src="{{ url(Storage::url($item->photo[0])) }}">
-                                </a>
-                            @endforeach
+                        @foreach($disposal->item as $item)
+                            <a href="{{ route('item.show',['item' => $item->slug]) }}"><img src="{{ url(Storage::url($item->photo[0])) }}"></a>
                         @endforeach
                     </div>
                 </div>
             </div>
         @endforeach
-    </div>
+    </dv>
 @endsection

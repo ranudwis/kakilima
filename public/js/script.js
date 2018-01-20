@@ -22,12 +22,13 @@ $("#scrollToTop").click(function(){
         scrollTop: 0
     },"slow");
 });
-$("#content").click(function(){
+$("body").click(function(){
     $(".dropdownSection.visible").each(function(){
         $(this).removeClass("visible");
     });
 });
 $(".dropdownSection > a:first-child").click(function(event){
+    event.stopPropagation();
     event.preventDefault();
     var now = $(this).parent();
     var check = false;
@@ -191,6 +192,11 @@ function addCart(){
     }
     var target = $(".btnCart").attr("href") + "/" + count;
     window.location = target;
+    return false;
+}
+function preSend(){
+    $(".receiptForm").css('display','block');
+    $(".receiptForm input[name=receiptNumber]").focus();
     return false;
 }
 var notification = document.getElementById("notification");

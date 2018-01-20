@@ -59,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    public function disposals(){
+    public function disposal(){
         return $this->hasMany(Transaction::class,'seller_id');
     }
 
@@ -80,7 +80,7 @@ class User extends Authenticatable
         return $this->level == 1;
     }
 
-    public function notifications(){
+    public function notification(){
         return $this->hasMany(Notification::class);
     }
 
@@ -89,7 +89,7 @@ class User extends Authenticatable
     }
 
     public function acceptPercentage(){
-        $items = $this->disposals()->whereIn('status',['done','reject'])->selectRaw('count(*) as cnt')->groupBy('status')->orderBy('status')->get();
+        $items = $this->disposal()->whereIn('status',['done','reject'])->selectRaw('count(*) as cnt')->groupBy('status')->orderBy('status')->get();
         $reject = $items[1]->cnt ?? 0;
         $done = $items[0]->cnt ?? 0;
         if($reject == 0){
@@ -100,7 +100,7 @@ class User extends Authenticatable
             }
         }else{
             $done = $items[0]->cnt ?? 0;
-            $percentage = ($done/($done+$reject))*100;
+            $percentage = round(($done/($done+$reject))*100,1);
         }
         return compact('reject','done','percentage');
     }

@@ -2,7 +2,7 @@
 
 @section('content')
     @if($carts->isEmpty())
-        Anda belum punya barang dalam keranjang anda 
+        Kamu belum punya barang dalam keranjang anda 
     @else
         @php $last = 0;$total = 0; @endphp
         @foreach($carts as $item)

@@ -8,12 +8,24 @@ class Transaction extends Model
 {
     protected $guarded = ['id','user_id','status'];
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'paid_at',
+        'sent_at',
+        'done_at'
+    ];
+
     public function item(){
         return $this->belongsToMany(Item::class)->withPivot('quantity');
     }
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function invoice(){
+        return $this->belongsTo(Invoice::class);
     }
 
     public function getStatusAttribute($value){

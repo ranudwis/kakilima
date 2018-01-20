@@ -20,7 +20,7 @@
                             <span class="status btn btnRed"><i class="fa fa-times fa-fw"></i>
                             @break
                     @endswitch
-                    {{ $invoice->status }}
+                    {{ $invoice->status }}</span>
                 </div>
                 <div class="address">
                     @if(empty($userAddress))
@@ -65,7 +65,7 @@
                     <div class="continueButton">
                         @if($invoice->getOriginal('status') == 'saved')
                             <a href="{{ route('invoice.pay',['invoice' => $invoice->invoiceId]) }}" class="btn btnFull btnBlue btnanimation">Lanjut ke pembayaran <i class="fa fa-chevron-right"></i></a>
-                        @else
+                        @elseif($invoice->getOriginal('status') == 'wait')
                             <div>Transfer sesuai nominal ke rekening</div>
                             <div class="paymentNumber">1234567890</div>
                             <div>Atas nama PT Kaki Lima</div>
@@ -91,26 +91,52 @@
                 @endif
             </div>
         </div>
-        <div class="section linesection">
+        <div class="section">
             @foreach($invoice->transaction as $transaction)
                 <div class="subSectionWrapper">
-                    <h2>Penjual: {{ $transaction->seller->name }}</h2>
+                    <h2>Transaksi #{{ $transaction->id }}</h2>
                     <div class="processWrapper">
                         @php $pass = false; @endphp
                         @foreach($statusText as $statusTex => $icon)
                             @if($pass)
-                                <div><i class="fa fa-{{ $icon }} fa-fw"></i></div>
+                                @if($statusTex == 'done' && ($transaction->invoiceReject || $transaction->getOriginal('status') == 'reject'))
+                                    <div class="reject"><i class="fa fa-times fa-fw"></i></div>
+                                @else
+                                    <div><i class="fa fa-{{ $icon }} fa-fw"></i></div>
+                                @endif
                             @else
                                 <div class="active"><i class="fa fa-{{ $icon }} fa-fw"></i></div>
-                                @php if($statusTex == $transaction->getOriginal('status')){ $pass = true; } @endphp
+                                @php if($statusTex == $transaction->getOriginal('status') || ($transaction->getOriginal('status') == 'reject' && $statusTex == 'paid')){ $pass = true; } @endphp
                             @endif
                         @endforeach
                     </div>
-                    <div class="status">{{ $transaction->status }}</div>
+                    @if($transaction->invoiceReject)
+                        <div class="status">Ditolak</div>
+                    @else
+                        <div class="status">{{ $transaction->status }}</div>
+                    @endif
+                    @if($transaction->getOriginal('status') == 'sent' || $transaction->getOriginal('status') == 'done')
+                        <div class="subSectionItem column receipt">
+                            <div class="receiptNumber">
+                                <div>
+                                    Dikirim pada {{ $transaction->sent_at->formatLocalized('%d %B %Y %k:%M') }}
+                                </div>
+                                <div>
+                                    Nomor resi {{ $transaction->receiptNumber }}
+                                </div>
+                            </div>
+                            @if($transaction->getOriginal('status') == 'sent')
+                                <div>
+                                    <a href="{{ route('transaction.done',['transaction' => $transaction->id])}}" onclick="return confirm('Konfirmasi terima barang? dengan ini maka uang pembayaran akan diteruskan ke penjual')" class="btn btnBlue btnanimation"><i class="fa fa-check fa-fw"></i> Terima barang</a>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                    <h3>{{ $transaction->seller->name }}</h3>
                     <div class="items">
                         @foreach($transaction->item as $item)
                             <div class="subSectionItem">
-                                <img class="image" src="{{ url(Storage::url($item->photo[0]))}}" width="32px" height="32px">
+                                <img class="image" src="{{ url(Storage::url($item->photo[0]))}}">
                                 <div class="description">
                                     <a href="{{ route('item.show',['item' => $item->slug]) }}" class="name">{{ $item->name }}</a>
                                     <div class="price">{{ $item->price }}</div>

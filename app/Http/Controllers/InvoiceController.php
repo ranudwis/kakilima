@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\Transaction;
 use App\Cart;
+use App\Notification;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
@@ -141,12 +142,9 @@ class InvoiceController extends Controller
     }
 
     public function confirm(Invoice $invoice){
-        $invoice->load('transactions.seller');
+        $invoice->load('transaction.seller');
         $insert = [];
-        $transactionIds = [];
-        foreach($invoice->transactions as $transaction){
-            $transactionIds[] = $transaction->id;
-
+        foreach($invoice->transaction as $transaction){
             $data = [
                 'disposal' => $transaction->id
             ];
@@ -154,22 +152,48 @@ class InvoiceController extends Controller
             $notification = new Notification();
             $notification->user_id = $transaction->seller->id;
             $notification->text = 'Kamu mendapatkan pesanan baru';
-            $notification->action = 'showdisposal';
+            $notification->action = 'disposal.show';
             $notification->data = json_encode($data);
             $notification->save();
         }
 
-        Transaction::whereIn('id',$transactionIds)->update([
-            'status' => 'paid'
+        $invoice->transaction()->update([
+            'status' => 'paid',
+            'paid_at' => new \Carbon\Carbon()
         ]);
 
-        // Notification::create($insert);
+        $data = [
+            'invoice' => $invoice->invoiceId
+        ];
+        $notification = new Notification();
+        $notification->user_id = $invoice->user->id;
+        $notification->text = 'Pembayaran kamu telah dikonfirmasi';
+        $notification->action = 'invoice.show';
+        $notification->data = json_encode($data);
+        $notification->save();
 
         $invoice->status = 'paid';
         $invoice->save();
 
-        session()->flash('cm', 'Transaksi berhasil dikonfirmasi');
+        return back()->with('cm', 'Transaksi berhasil dikonfirmasi');;
+    }
 
-        return back();
+    public function reject(Invoice $invoice){
+        $invoice->status = 'reject';
+        $invoice->transaction()->update([
+            'invoiceReject' => '1'
+        ]);
+        $invoice->save();
+        $data = [
+            'invoice' => $invoice->invoiceId
+        ];
+        $notification = new Notification();
+        $notification->user_id = $invoice->user->id;
+        $notification->text = 'Pembayaran kamu telah ditolak';
+        $notification->action = 'invoice.show';
+        $notification->data = json_encode($data);
+        $notification->save();
+
+        return back()->with('cm', 'Transaksi berhasil ditolak');
     }
 }

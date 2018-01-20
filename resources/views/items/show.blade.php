@@ -40,9 +40,9 @@
                         <a href="#" onclick="return false" class="btn btnGray"><i class="fa fa-shopping-cart fa-fw fa-lg"></i> Barang Sudah Di Keranjang</a>
                     @else
                         <div class="cartCountModWrapper">
-                            <a href="#" class="cartCountMod decCartCount"><i class="fa fa-minus fa-fw"></i></a>
+                            <a href="#" onclick="return false" class="cartCountMod decCartCount"><i class="fa fa-minus fa-fw"></i></a>
                             <input type="text" value="1" max="{{ $item->stock }}" class="cartCount">
-                            <a href="#" class="cartCountMod incCartCount"><i class="fa fa-plus fa-fw"></i></a>
+                            <a onclick="return false" href="#" class="cartCountMod incCartCount"><i class="fa fa-plus fa-fw"></i></a>
                         </div>
                         <a onclick="return addCart()" href="{{ route('cart.add',['item' => $item->id]) }}" class="btn btnGreen btnCart btnanimation"><i class="fa fa-cart-plus fa-fw fa-lg"></i> Tambah Ke Keranjang</a>
                     @endif
