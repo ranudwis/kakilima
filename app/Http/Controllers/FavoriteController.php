@@ -11,7 +11,7 @@ class FavoriteController extends Controller
     }
     public function store(){
         $item = \App\Item::where('slug',request('item'));
-        auth()->user()->favorites()->attach($item);
+        auth()->user()->favorite()->attach($item);
         return "1";
     }
 }

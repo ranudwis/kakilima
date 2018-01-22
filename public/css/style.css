@@ -19,6 +19,9 @@ body{
     right: 0;
     min-height: 100%;
 }
+a{
+    outline: none;
+}
 #navbar{
     display:flex;
     justify-content: space-between;
@@ -188,7 +191,7 @@ body{
     right: 0;
 }
 .navicon{
-    font-size: 32px !important;
+    font-size: 30px !important;
     color: #17a99d;
 }
 .counter{
@@ -290,21 +293,40 @@ h1{
     right: 8px;
     z-index: 100;
 }
+.smallForm .formError{
+    right: -32px;
+}
 .regularForm select{
     width: 100%;
     border: 0;
-    padding: 12px;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    padding: 12px 20px 12px 12px;
+    border: 1px solid #ddd;
     color: black;
     background-color: white;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOBAMAAADtZjDiAAAAJ1BMVEUAAACenp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp4A/YQuAAAADHRSTlMAARAWGCcsLs7V8ftXqJFXAAAAM0lEQVQI12NgwAFUQ0HAgWHOGRDYyGAFpgsYmNcAqeNABVZgLgNI4DhYhxWYCxRoY8ANAKXgFyfUAuREAAAAAElFTkSuQmCC');
+    background-repeat: no-repeat;
+    background-position: top 50% right 6px;
+}
+.regularForm button{
+    background-color: #eee;
+    color: inherit;;
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+}
+.smallForm select{
+    padding: 4px 20px 4px 8px;
 }
 .regularform input,.regularform textarea{
     color: black;
     width: 100%;
     padding: 12px;
     border:none;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
-    transition: 0.2s box-shadow;
+    border: 1px solid #ddd;
+    transition: 0.2s border;
     background-color: transparent;
     outline: none;
 }
@@ -312,7 +334,7 @@ h1{
     width: initial;
 }
 .regularform input:focus,.regularform textarea:focus{
-    box-shadow: 0 0 2px #17a99d;
+    border: 1px solid #17a99d;
 }
 .regularform input.error,.regularform select.error{
     box-shadow: 0 0 3px #ff4343;
@@ -620,7 +642,7 @@ h1{
 .product{
     background-color: transparent;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    flex: 0 0 200px;
+    flex: 0 0 160px;
     margin: 8px;
     border-radius: 2px;
     position: relative;
@@ -639,11 +661,10 @@ h1{
     border-radius: 4px;
 }
 .productImage{
-    height: 200px;
-    width: 200px;
+    height: 160px;
+    width: 160px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
-    padding:4px;
 }
 .productDescription{
     padding: 12px;

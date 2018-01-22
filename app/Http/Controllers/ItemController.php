@@ -13,7 +13,46 @@ class ItemController extends Controller
     }
 
     public function index(){
-        return view('items.index');
+        $this->validate(request(),[
+            'category' => 'nullable|exists:categories,id',
+            'condition' => 'nullable|in:1,0',
+            'minPrice' => 'nullable|integer|min:0',
+            'maxPrice' => 'nullable|integer|min:0',
+        ]);
+        $categories = Category::all();
+        $items = Item::where('stock','>','0')->where('user_id','!=',auth()->id());
+        $query = [
+            'q' => request()->query('q',null),
+            'condition' => request()->query('condition',null),
+            'category' => request()->query('category',null),
+            'minPrice' => request()->query('minPrice',null),
+            'maxPrice' => request()->query('maxPrice',null),
+        ];
+
+        if(!is_null($query['q'])){
+            $items->where('name','like','%'.$query['q'].'%');
+        }
+
+        if(!is_null($query['category'])){
+            $items->where('category_id',$query['category']);
+        }
+        if(!is_null($query['condition'])){
+            $items->where('condition',$query['condition']);
+        }
+        if(!is_null($query['minPrice'])){
+            $items->where('price','>',$query['minPrice']);
+        }
+        if(!is_null($query['maxPrice'])){
+            $items->where('price','<',$query['maxPrice']);
+        }
+
+        $items = $items->with('reviews:item_id,stars')->get();
+        if(!is_null($user = auth()->user())){
+            $favorites = $user->favorite;
+        }else{
+            $favorites = collect([]);
+        }
+        return view('items.index',compact('categories','items','favorites','query'));
     }
 
     public function create(){

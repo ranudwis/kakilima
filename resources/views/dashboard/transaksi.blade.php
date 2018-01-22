@@ -17,8 +17,8 @@
                 <td>{{ $invoice->user->email }}</td>
                 <td>{{ $invoice->updated_at }}</td>
                 <td>
-                    <a href="{{ route('invoice.confirm',['invoice' => $invoice->invoiceId]) }}" onclick="return confirm('Terima transaksi?')" class="btn btnblue btnanimation"><i class="fa fa-check fa-fw"></i> Konfirmasi</a>
-                    <a href="{{ route('invoice.reject',['invoice' => $invoice->invoiceId]) }}" onclick="return confirm('Tolak transaksi?')" class="btn btnred btnanimation"><i class="fa fa-times fa-fw"></i> Tolak</a>
+                    <a href="{{ route('invoice.confirm',['invoice' => $invoice->invoiceId]) }}" onclick="return confirm('Terima transaksi?')" class="btn btnblue btnanimation"><i class="fa fa-check fa-fw"></i></a>
+                    <a href="{{ route('invoice.reject',['invoice' => $invoice->invoiceId]) }}" onclick="return confirm('Tolak transaksi?')" class="btn btnred btnanimation"><i class="fa fa-times fa-fw"></i></a>
                 </td>
             </tr>
         @endforeach

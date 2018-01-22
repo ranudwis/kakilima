@@ -19,8 +19,8 @@
         @endunless
         @unless($admin)
         <div id="searchBar">
-            <form method="post" action="{{ route('search') }}">
-                <input type="text" name="query" placeholder="Aku mau beli...">
+            <form method="get" action="{{ route('item') }}">
+                <input type="text" name="q" placeholder="Aku mau beli..." value="{{ request()->query('q')}}">
                 <i class="fa fa-search"></i>
             </form>
         </div>

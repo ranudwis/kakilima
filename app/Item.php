@@ -80,4 +80,5 @@ class Item extends Model
     public function calculateTotalOriginal(){
         return $this->getOriginal('price') * $this->pivot->quantity;
     }
+
 }
