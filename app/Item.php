@@ -46,7 +46,9 @@ class Item extends Model
 
     public function setNameAttribute($value){
         $this->attributes['name'] = $value;
-        $this->attributes['slug'] = rand(0,1000).'-'.str_slug($value,'-');
+        if(is_null($this->slug)){
+            $this->attributes['slug'] = rand(0,1000).'-'.str_slug($value,'-');
+        }
     }
 
     public function getRouteKeyName(){

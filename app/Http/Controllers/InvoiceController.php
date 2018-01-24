@@ -111,13 +111,15 @@ class InvoiceController extends Controller
 
         $total = $invoice->getOriginal('totalPrice');
         $discount = ($coupon->discount/100)*$total;
-        $discount = $discount < $coupon->maximum ? $discount : $coupon->maximum;
+        $discount = $discount < $coupon->getOriginal('maximum') ? $discount : $coupon->getOriginal('maximum');
         if($total < $coupon->getOriginal('minimum')){
             return back()->withError('code','Minimal transaksi adalah '.$coupon->minimum);
         }
         $invoice->cutoffPrice = $discount;
         $invoice->coupon()->associate($coupon);
         $invoice->save();
+
+        $coupon->increment('used');
 
         foreach($invoice->transaction as $transaction){
             $totalPrice = $transaction->getOriginal('totalPrice');

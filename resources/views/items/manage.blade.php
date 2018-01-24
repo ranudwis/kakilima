@@ -4,10 +4,23 @@
 <div class="section linesection">
     <h2>Kelola barang</h2>
     <a href="{{ route('item.add') }}" class="btn btnBlue btnanimation"><i class="fa fa-plus"></i> Tambah barang</a>
+    @if($items->isEmpty())
+        <div>
+            Kamu belum memiliki barang
+        </div>
+    @endif
     <div class="flexWrapper productWrapper productManage">
         @foreach($items as $item)
             <div class="product" id="{{ $item->slug }}">
-                <a href="{{ route('item.edit',['item'=>$item->slug]) }}"><img class="productImage" src="{{ url(Storage::url($item->photo[0])) }}"></a>
+                <div class="itemButton">
+                    <a href="{{ route('item.edit',['item' => $item->slug]) }}" class="btn btnBlue btnanimation">
+                        <i class="fa fa-pencil fa-fw"></i>
+                    </a>
+                    <a href="{{ route('item.destroy',['item' => $item->slug]) }}" class="btn btnRed btnanimation" onclick="return confirm('Hapus barang?')">
+                        <i class="fa fa-trash fa-fw"></i>
+                    </a>
+                </div>
+                <img class="productImage" src="{{ url(Storage::url($item->photo[0])) }}">
                 <div class="productDescription">
                     <div class="productStars">
                         @php $stars = $item->calculateStars() @endphp

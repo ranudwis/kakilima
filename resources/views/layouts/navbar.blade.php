@@ -4,18 +4,6 @@
             <img src="{{ url('images/logo'.$white.'.png') }}">
         </a>
         @unless(request()->route()->getName() == "home" || $admin)
-        <div id="categorySection" class="dropdownSection">
-            <a href="{{ route('category') }}" id="category">Kategori</a>
-            <!-- <ul id="categoryList">
-                <li><a href="">Perlengkapan rumah tangga</a></li>
-            </ul> -->
-            <div id="categoryList" class="dropdownList">
-                <a href="">Perlengkapan rumah tangga</a>
-                <a href="">Komputer</a>
-                <a href="">Baju</a>
-                <a href="">Sepatu</a>
-            </div>
-        </div>
         @endunless
         @unless($admin)
         <div id="searchBar">

@@ -20,6 +20,7 @@ class CreateCouponsTable extends Migration
             $table->float('discount');
             $table->float('maximum');
             $table->date('expired')->nullable();
+            $table->integer('used')->default('0');
             $table->timestamps();
         });
     }

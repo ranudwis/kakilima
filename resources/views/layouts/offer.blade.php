@@ -1,32 +1,28 @@
 <div class="offer">
     <div id="offerWrapper">
         <div>
-            <img src="{{ url('/images/logoSmall.png') }}">
+            <i class="fa fa-lock fa-fw"></i>
+            <!-- <img src="{{ url('/images/logoS        mall.png') }}"> -->
             <span>Aman</span>
             <span>Jaminan uang kembali untuk Anda</span>
         </div>
         <div>
-            <img src="{{ url('/images/logoSmall.png') }}">
+            <i class="fa fa-check fa-fw"></i>
             <span>Mudah</span>
             <span>Belanja dengan mudah tanpa beban</span>
         </div>
         <div>
-            <img src="{{ url('/images/logoSmall.png') }}">
-            <span>Layanan Pelanggan</span>
-            <span>Layanan pelanggan 24 jam untuk kenyamanan Anda</span>
-        </div>
-        <div>
-            <img src="{{ url('/images/logoSmall.png') }}">
+            <i class="fa fa-cube fa-fw"></i>
             <span>Gratis Ongkir</span>
-            <span>Gratis ongkos kirim selama masa promosi</span>
+            <span>Gratis ongkos kirim ke seluruh Indonesia selama masa promosi</span>
         </div>
         <div>
-            <img src="{{ url('/images/logoSmall.png') }}">
+            <i class="fa fa-bolt fa-fw"></i>
             <span>Akses Dimana Saja</span>
-            <span>Kemudahan akses dari mana saja dengan tampilan mobile</span>
+            <span>Kecepatan akses kapan saja dan di mana saja</span>
         </div>
     </div>
-    <div id="linkWrapper">
+    <!-- <div id="linkWrapper">
         <div>
             <h3>Berlangganan</h3>
             <form method="post" action="">
@@ -44,5 +40,5 @@
         <div>
             <h3>Temukan kami</h3>
         </div>
-    </div>
+    </div> -->
 </div>

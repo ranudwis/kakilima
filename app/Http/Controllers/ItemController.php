@@ -8,10 +8,6 @@ use App\Category;
 
 class ItemController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth')->only('create','store','edit','update');
-    }
-
     public function index(){
         $this->validate(request(),[
             'category' => 'nullable|exists:categories,id',
@@ -77,6 +73,39 @@ class ItemController extends Controller
         return back()->with('cm','Barang berhasil ditambahkan');
     }
 
+    public function update($item){
+        $this->validate(request(),[
+            'name' => 'required|min:5|max:191',
+            'price' => 'required|integer',
+            'stock' => 'required|integer|min:1',
+            'condition' => 'required|in:new,used',
+            'category' => 'required|exists:categories,id',
+            'description' => 'required|min:10',
+            'photo.*' => 'image'
+        ]);
+        $item = auth()->user()->items()->where('slug',$item)->firstOrFail();
+        $item->name = request('name');
+        $item->price = request('price');
+        $item->stock = request('stock');
+        $item->condition = request('condition');
+        $item->category_id = request('category');
+        $item->description = request('description');
+
+        if(!is_null(request('photo'))){
+            $item->photo = request('photo');
+        }
+
+        $item->save();
+
+        return back()->with('cm','Barang berhasil di update');
+    }
+
+    public function destroy($item){
+        auth()->user()->items()->where('slug',$item)->firstOrFail()->delete();
+
+        return back()->with('cm','Barang berhasil dihapus');
+    }
+
     public function show(Item $item){
         $item->view++;
         $item->save();
@@ -84,6 +113,11 @@ class ItemController extends Controller
         $photos = $item->photo;
         $percentage = $item->seller->acceptPercentage();
         return view('items.show',compact('item','photos','percentage'));
+    }
+
+    public function edit(Item $item){
+        $categories = Category::all();
+        return view('items.edit',compact('item','categories'));
     }
 
     public function manage(){
@@ -122,4 +156,5 @@ class ItemController extends Controller
         auth()->user()->favorite()->detach($item);
         return back()->with('cm','Barang dihapus dari favorit');
     }
+
 }

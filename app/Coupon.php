@@ -15,4 +15,8 @@ class Coupon extends Model
     public function getMinimumAttribute($value){
         return 'Rp'.number_format($value,0,',','.');
     }
+
+    public function getMaximumAttribute($value){
+        return 'Rp'.number_format($value,0,',','.');
+    }
 }

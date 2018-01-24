@@ -11,4 +11,12 @@ class Category extends Model
     public function setNameAttribute($value){
         $this->attributes['name'] = ucfirst($value);
     }
+
+    public function item(){
+        return $this->hasMany(Item::class);
+    }
+
+    public function calculateTotal(){
+        return $this->item->count();
+    }
 }

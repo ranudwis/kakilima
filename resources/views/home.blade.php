@@ -6,9 +6,8 @@
             <h2>Kategori</h2>
             <div id="welcomeCategoryList">
                 @foreach($categories as $category)
-                    <a href="{{ route('showcategory',['category' => $category->id]) }}">{{ $category->name }}</a>
+                    <a href="{{ route('item',['category' => $category->id]) }}">{{ $category->name }}</a>
                 @endforeach
-                <a href="">Kategori Lainnya</a>
             </div>
         </div>
         <div id="slider">
@@ -51,7 +50,7 @@
                 </div>
             @endforeach
         </div>
-        <a class="sectionButton" href="">Selengkapnya <i class="fa fa-chevron-right"></i></a>
+        <a class="sectionButton" href="{{ route('item')}}">Selengkapnya <i class="fa fa-chevron-right"></i></a>
     </div>
 @endsection
 @section('footer')

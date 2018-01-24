@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index(){
         $items = \App\Item::orderBy('sold','desc')->with('reviews')->take(5)->get();
-        $categories = \App\Category::all();
+        $categories = \App\Category::limit(8)->get();
         $sliders = \DB::table('sliders')->select('filename')->get();
         if(!is_null($user = auth()->user())){
             $favorites = $user->favorite;

@@ -39,12 +39,17 @@ class DashboardController extends Controller
             case "kategori":
                 switch($subdash){
                     case "statistik":
-                        $data = \App\Category::all();
+                        $data = \App\Category::with('item')->get();
                         break;
                 }
                 break;
             case "transaksi":
                 $data = Invoice::where('status','wait')->where('paymentInfo','!=','null')->with('user')->orderBy('updated_at','desc')->get();
+                break;
+            case "kupon":
+                if($subdash == 'tampil'){
+                    $data = Coupon::all();
+                }
                 break;
             case "pengaturan":
                 switch($subdash){
@@ -142,5 +147,16 @@ class DashboardController extends Controller
         \Storage::delete($data->first()->filename);
         $data->delete();
         return back()->with('cm','Slider berhasil dihapus');
+    }
+
+    public function destroyCategory(Category $category){
+        $category->item()->delete();
+        $category->delete();
+        return back()->with('cm','Kategori berhasil dihapus');
+    }
+
+    public function destroyCoupon(Coupon $coupon){
+        $coupon->delete();
+        return back()->with('cm','Kupon berhasil dihapus');
     }
 }

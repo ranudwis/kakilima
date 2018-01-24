@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/tambah','ItemController@create')->name('item.add');
         Route::post('/tambah','ItemController@store');
         Route::get('/edit/{item}','ItemController@edit')->name('item.edit');
+        Route::patch('/{item}','ItemController@update')->name('item.update');
+        Route::get('/hapus/{item}','ItemController@destroy')->name('item.destroy');
     });
 
     Route::prefix('/favorit')->group(function(){
@@ -109,6 +111,8 @@ Route::middleware(['auth','admin'])->group(function(){
     Route::post('/dashboard/pengaturan/slider','DashboardController@storeSlider')->name('dashboard.slider.store');
     Route::post('/dashboard/pengaturan/rekening','DashboardController@storePayment')->name('dashboard.payment.store');
     Route::get('/dashboard/pengaturan/slider/{slider}/hapus','DashboardController@destroySlider')->name('dashboard.slider.destroy');
+    Route::get('/dashboard/kategori/{category}/hapus','DashboardController@destroyCategory')->name('dashboard.category.destroy');
+    Route::get('/dashboard/kupon/{coupon}/hapus','DashboardController@destroyCoupon')->name('dashboard.coupon.destroy');
     Route::get('/dashboard','DashboardController@index')->name('dashboard');
     Route::get('/dashboard/{board}/{subboard?}/{param?}','DashboardController@dashboard')->name('board');
 

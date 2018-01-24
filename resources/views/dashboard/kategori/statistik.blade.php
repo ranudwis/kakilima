@@ -3,13 +3,14 @@
     <table>
         <tr>
             <th>Nama</th>
+            <th>Jumlah Barang</th>
             <th>Aksi</th>
         </tr>
         @foreach($data as $dat)
             <tr>
                 <td>{{ $dat->name }}</td>
-                <td><a class="btn btnblue btnanimation" href="">Edit</a>
-                    <a class="btn btnred btnanimation" href="">Hapus</a>
+                <td>{{ $dat->calculateTotal() }}</td>
+                <td><a class="btn btnred btnanimation" href="{{ route('dashboard.category.destroy',[$dat->id]) }}" onclick="return confirm('Hapus kategori?')"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
         @endforeach
