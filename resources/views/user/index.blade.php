@@ -29,17 +29,23 @@
                 <td>Alamat</td>
                 <td>{{ $user->address }}</td>
             </tr>
-            @if(is_null($user->telegram_id))
-                <tr>>
-                    <td>
-                        <a href="{{ route('telegramIntegration') }}" class="btn btnTelegram btnanimation btnLarge" target="_blank">
-                            <i class="fa fa-telegram fa-fw"></i> Hubungkan dengan akun Telegram
-                        </a>
-                    </td>
-                </tr>
-            @endif
             <tr>
-                <td colspan="2"><a href="{{ route('user.editProfile') }}" class="btn btnBlue btnanimation"><i class="fa fa-pencil fa-fw"></i>Edit profil</a>
+                <td>Telegram</td>
+                <td>
+                    @if(is_null($user->telegram_id))
+                        <a href="{{ route('telegram.integration') }}" class="btn btnTelegram btnanimation btnLarge" target="_blank">
+                            <i class="fa fa-telegram fa-fw"></i> Hubungkan
+                        </a>
+                    @else
+                        <a href="{{ route('telegram.disintegration') }}" class="btn btnRed btnanimation btnLarge">
+                            <i class="fa fa-telegram fa-fw"></i> Putuskan hubungan
+                        </a>
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><a href="{{ route('user.editProfile') }}" class="btn btnBlue btnanimation"><i class="fa fa-pencil fa-fw"></i>Edit profil</a></td>
+            </tr>
         </table>
     </div>
 </div>

@@ -22,5 +22,8 @@ class TelegramIntegration extends Model
         $this->attributes['expired'] = (new \Carbon\Carbon())->addHours(24);
     }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
 }

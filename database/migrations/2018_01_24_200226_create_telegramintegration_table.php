@@ -14,6 +14,7 @@ class CreateTelegramintegrationTable extends Migration
     public function up()
     {
         Schema::create('telegramintegration', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('user_id');
             $table->string('token');
             $table->timestamp('expired');
@@ -27,6 +28,6 @@ class CreateTelegramintegrationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('telegramintegrations');
     }
 }

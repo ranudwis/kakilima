@@ -20,5 +20,14 @@ class UserSeeder extends Seeder
         $user->gender = 'M';
         $user->level = '1';
         $user->save();
+
+        $user = new User();
+        $user->name = 'Satu';
+        $user->email = 'satu@satu.satu';
+        $user->username = 'satu';
+        $user->password = 'satu';
+        $user->gender = 'M';
+        $user->level = '0';
+        $user->save();
     }
 }
