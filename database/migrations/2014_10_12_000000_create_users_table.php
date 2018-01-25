@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->enum('gender',['M','F']);
             $table->text('address')->nullable();
             $table->text('photo')->nullable();
+            $table->integer('telegram_id')->nullable();
             $table->boolean('level')->default(false);
             $table->rememberToken();
             $table->timestamps();

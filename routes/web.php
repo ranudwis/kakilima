@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/photo','UserController@updatePhoto');
         Route::get('/profil','UserController@editProfile')->name('user.editProfile');
         Route::post('/profil','UserController@updateProfile');
+        Route::get('integrasi-telegram','TelegramController@integrate')->name('telegramIntegration');
     });
 
     Route::prefix('/barang')->group(function(){

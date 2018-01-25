@@ -108,4 +108,8 @@ class User extends Authenticatable
     public function itemCount(){
         return $this->items->count();
     }
+
+    public function telegram(){
+        return $this->hasOne(TelegramIntegration::class);
+    }
 }
