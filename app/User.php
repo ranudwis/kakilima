@@ -112,4 +112,56 @@ class User extends Authenticatable
     public function telegram(){
         return $this->hasOne(TelegramIntegration::class);
     }
+
+    public function notify($action,$data,$text,$type = '',$object = []){
+        $notification = new Notification();
+        $notification->user_id = $this->id;
+        $notification->text = $text;
+        $notification->action = $action;
+        $notification->data = json_encode($data);
+        $notification->save();
+        if(!is_null($this->telegram_id)){
+            switch($type){
+                case 'new_order':
+                    $text = "#".$object->id
+                        ."\nPesanan baru oleh ".$object->user->name
+                        ."\n\n--------------------";
+                    foreach($object->item as $item){
+                        $text .= "\n".str_limit($item->name,20)." x ".$item->pivot->quantity;
+                    }
+                    $text .= "\n--------------------"
+                        ."\n\nTotal: ".$object->totalPrice;
+
+                    $inline = [
+                        'inline_keyboard' => [
+                            [
+                                [
+                                    'text' => '📎 Tampilkan',
+                                    'url' => route('notification.show',['notification' => $notification->id])
+                                ]
+                            ]
+                        ]
+                    ];
+                    break;
+                default:
+                    $inline = [
+                        'inline_keyboard' => [
+                            [
+                                [
+                                    'text' => '📎 Tampilkan',
+                                    'url' => route('notification.show',['notification' => $notification->id])
+                                ]
+                            ]
+                        ]
+                    ];
+            }
+
+            $tg = new \Telegram\Bot\Api();
+            $tg->sendMessage([
+                'chat_id' => $this->telegram_id,
+                'text' => $text,
+                'reply_markup' => json_encode($inline),
+            ]);
+        }
+    }
 }

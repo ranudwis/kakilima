@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\Transaction;
 use App\Cart;
-use App\Notification;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
@@ -147,16 +146,7 @@ class InvoiceController extends Controller
         $invoice->load('transaction.seller');
         $insert = [];
         foreach($invoice->transaction as $transaction){
-            $data = [
-                'disposal' => $transaction->id
-            ];
-
-            $notification = new Notification();
-            $notification->user_id = $transaction->seller->id;
-            $notification->text = 'Kamu mendapatkan pesanan baru';
-            $notification->action = 'disposal.show';
-            $notification->data = json_encode($data);
-            $notification->save();
+            $transaction->seller->notify('disposal.show',['disposal' => $transaction->id],'Kamu mendapatkan pesanan baru','new_order',$transaction);
         }
 
         $invoice->transaction()->update([
@@ -164,15 +154,7 @@ class InvoiceController extends Controller
             'paid_at' => new \Carbon\Carbon()
         ]);
 
-        $data = [
-            'invoice' => $invoice->invoiceId
-        ];
-        $notification = new Notification();
-        $notification->user_id = $invoice->user->id;
-        $notification->text = 'Pembayaran kamu telah dikonfirmasi';
-        $notification->action = 'invoice.show';
-        $notification->data = json_encode($data);
-        $notification->save();
+        $invoice->user->notify('invoice.show',['invoice' => $invoice->invoiceId],'Pembayaran kamu telah dikonfirmasi');
 
         $invoice->status = 'paid';
         $invoice->save();
@@ -186,15 +168,7 @@ class InvoiceController extends Controller
             'invoiceReject' => '1'
         ]);
         $invoice->save();
-        $data = [
-            'invoice' => $invoice->invoiceId
-        ];
-        $notification = new Notification();
-        $notification->user_id = $invoice->user->id;
-        $notification->text = 'Pembayaran kamu telah ditolak';
-        $notification->action = 'invoice.show';
-        $notification->data = json_encode($data);
-        $notification->save();
+        $invoice->user->notify('invoice.show',['invoice' => $invoice->invoiceId],'Pembayaran kamu telah ditolak');
 
         return back()->with('cm', 'Transaksi berhasil ditolak');
     }

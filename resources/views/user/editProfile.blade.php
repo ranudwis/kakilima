@@ -55,9 +55,6 @@
                 <div><textarea name="address">{{ $user->address }}</textarea></div>
             </div>
             <div>
-                <div><a href="{{ route('telegramIntegration') }}" class="btn btnTelegram btnanimation" target="_blank"><i class="fa fa-telegram fa-fw"></i></a></div>
-            </div>
-            <div>
                 <input type="submit" value="Edit profil">
             </div>
         </form>

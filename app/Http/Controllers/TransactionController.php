@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaction;
-use App\Notification;
 use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
@@ -80,15 +79,7 @@ class TransactionController extends Controller
         $disposal->status = 'reject';
         $disposal->save();
 
-        $data = [
-            'invoice' => $disposal->invoice->invoiceId
-        ];
-        $notification = new Notification();
-        $notification->user_id = $disposal->user->id;
-        $notification->text = 'Pesanan kamu telah ditolak';
-        $notification->action = 'invoice.show';
-        $notification->data = json_encode($data);
-        $notification->save();
+        $disposal->user->notify('invoice.show',['invoice' => $disposal->invoice->invoiceId],'Pesanan kamu telah ditolak');
         return back()->with('cm','Pesanan ditolak');
     }
 
@@ -101,15 +92,7 @@ class TransactionController extends Controller
         $disposal->status = 'sent';
         $disposal->sent_at = new \carbon\Carbon();
         $disposal->save();
-        $data = [
-            'invoice' => $disposal->invoice->invoiceId
-        ];
-        $notification = new Notification();
-        $notification->user_id = $disposal->user->id;
-        $notification->text = 'Pesanan kamu telah dikirim';
-        $notification->action = 'invoice.show';
-        $notification->data = json_encode($data);
-        $notification->save();
+        $disposal->user->notify('invoice.show',['invoice' => $disposal->invoice->invoiceId],'Pesanan kamu telah dikirim');
 
         return back()->with('cm','Pesanan dikirim');
     }
@@ -118,16 +101,7 @@ class TransactionController extends Controller
         $transaction->status = 'done';
         $transaction->done_at = new \Carbon\Carbon();
         $transaction->save();
-        $data = [
-            'disposal' => $transaction->id
-        ];
-
-        $notification = new Notification();
-        $notification->user_id = $transaction->seller->id;
-        $notification->text = 'Pesanan telah diterima';
-        $notification->action = 'disposal.show';
-        $notification->data = json_encode($data);
-        $notification->save();
+        $transaction->seller->notify('disposal.show',['disposal' => $transaction->id],'Pesanan telah diterima');
 
         return back()->with('cm','Pesanan diterima');
     }

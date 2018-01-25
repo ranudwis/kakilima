@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TelegramIntegration;
 use App\User;
+use App\Transaction;
 use Telegram\Bot\Api;
 
 class TelegramController extends Controller
@@ -38,7 +39,37 @@ class TelegramController extends Controller
 
     public function update(){
         $this->update = request()->all();
-        if(isset($this->update["message"]["text"])){
+        if(isset($this->update["callback_query"])){
+            preg_match("/([a-z]+\.[a-z]+)_?(.*)/",$this->update["callback_query"]['data'],$match);
+            $command = $match[1];
+            $this->message($command);
+            $arg = $match[2];
+            switch($command){
+                case 'disposal.reject':
+                    $check = Transaction::where('id',$arg);
+                    if($check->exists() && $check->first()->getOriginal('status') == 'paid'){
+                        $this->message('Yakin akan tolak pesanan?',$this->inlineQuestion('disposal.reject.confirm_'.$arg));
+                    }
+                    break;
+                case 'disposal.reject.confirm':
+                    $check = Transaction::where('id',$arg);
+                    if($check->exists() && $check->first()->getOriginal('status') == 'paid'){
+                        $check = $check->first();
+                        $check->status = 'reject';
+                        $check->save();
+
+                        $check->user->notifiy('invoice.show',['invoice' => $disposal->invoice->invoiceId],'Pesanan kamu telah ditolak');
+                    }
+                    break;
+                case 'cancel':
+                    $this->tg->post('editMessageText',[
+                        'chat_id' => $this->update["callback_query"]["message"]["chat"]["id"],
+                        'message_id' => $this->update["callback_query"]["message"]["message_id"],
+                        'text' => 'Dibatalkan'
+                    ]);
+                    break;
+            }
+        }elseif(isset($this->update["message"]["text"])){
             $text = $this->update["message"]["text"];
             if(preg_match("/\/(\S+) ?(.*)?/",$text,$match)){
                 $arg = $match[2];
@@ -83,12 +114,33 @@ class TelegramController extends Controller
         }
     }
 
-    public function message($text){
-        $chat_id = $this->update["message"]["chat"]["id"];
+    public function message($text,$replyMarkup='{}'){
+        if(isset($this->update["callback_query"])){
+            $chat_id = $this->update["callback_query"]["message"]["chat"]["id"];
+        }else{
+            $chat_id = $this->update["message"]["chat"]["id"];
+        }
 
         $this->tg->sendMessage([
             'chat_id' => $chat_id,
-            'text' => $text
+            'text' => $text,
+            'reply_markup' => $replyMarkup
+        ]);
+    }
+
+    public function inlineQuestion($callback){
+        return json_encode([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => '✅',
+                        'callback_data' => $callback
+                    ],[
+                        'text' => '❌',
+                        'callback_data' => 'cancel'
+                    ]
+                ]
+            ]
         ]);
     }
 }

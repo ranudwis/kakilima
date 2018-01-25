@@ -29,5 +29,15 @@ class UserSeeder extends Seeder
         $user->gender = 'M';
         $user->level = '0';
         $user->save();
+
+        $user = new User();
+        $user->name = 'Dua';
+        $user->email = 'dua@dua.dua';
+        $user->username = 'dua';
+        $user->password = 'dua';
+        $user->gender = 'M';
+        $user->address = 'Jalan Bhayangkara';
+        $user->level = '0';
+        $user->save();
     }
 }
