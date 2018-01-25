@@ -51,7 +51,7 @@
         <div><textarea name="description">{{ old('description') }}</textarea></div>
     </div>
     <div>
-        <button class="btnanim btnanimation" type="submit">Simpan</button>
+        <input type="submit" value="Simpan">
     </div>
 </form>
 </div>

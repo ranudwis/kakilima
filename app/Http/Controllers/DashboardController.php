@@ -17,17 +17,13 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        $overview = \DB::select("select user,item,transaction from
+        $overview = \DB::select("select user,item,transaction,doneTransaction,waitTransaction,category from
         (select count(*) user from users where level='0') users,
         (select count(*) item from items) items,
-        (select count(*) transaction from transactions where status!='saved') transactions")[0];
-        $str   = @file_get_contents('/proc/uptime');
-        $num   = floatval($str);
-        $secs  = fmod($num, 60); $num = intdiv($num, 60);
-        $mins  = $num % 60;      $num = intdiv($num, 60);
-        $hours = $num % 24;      $num = intdiv($num, 24);
-        $days  = $num;
-        $overview->uptime = "{$days}d{$hours}h{$mins}m";
+        (select count(*) transaction from transactions where status!='saved') transactions,
+        (select count(*) waitTransaction from invoices where status='wait' && paymentInfo is not null) waitTransactions,
+        (select count(*) category from categories) category,
+        (select count(*) doneTransaction from transactions where status='done') doneTransaction")[0];
         $linkName = 0;
         $subLink = 0;
         return view('dashboard.index',compact('linkName','subLink','overview'));

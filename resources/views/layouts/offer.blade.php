@@ -1,18 +1,17 @@
 <div class="offer">
     <div id="offerWrapper">
         <div>
-            <i class="fa fa-lock fa-fw"></i>
-            <!-- <img src="{{ url('/images/logoS        mall.png') }}"> -->
-            <span>Aman</span>
-            <span>Jaminan uang kembali untuk Anda</span>
-        </div>
-        <div>
             <i class="fa fa-check fa-fw"></i>
             <span>Mudah</span>
-            <span>Belanja dengan mudah tanpa beban</span>
+            <span>Nikmati berbelanja dengan mudah tanpa berpikir panjang</span>
         </div>
         <div>
-            <i class="fa fa-cube fa-fw"></i>
+            <i class="fa fa-lock fa-fw"></i>
+            <span>Aman</span>
+            <span>Sistem pembayaran kami yang dijamin aman atau uang kembali untuk Anda</span>
+        </div>
+        <div>
+            <i class="fa fa-truck fa-fw"></i>
             <span>Gratis Ongkir</span>
             <span>Gratis ongkos kirim ke seluruh Indonesia selama masa promosi</span>
         </div>

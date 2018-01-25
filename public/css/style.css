@@ -37,7 +37,10 @@ a{
     transition: box-shadow 0.2s;
 }
 #navbar.dashboard{
-    background-color: #19BBAE;
+    background-color: #37474F;
+}
+#navbar.dashboard #userButton > a{
+    background-color: #263238;
 }
 #navbar.scroll{
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
@@ -72,6 +75,10 @@ a{
 #cartList{
     padding: 8px;
     min-width: 250px;
+}
+#cartList > a:last-child:hover{
+    color: #17a99d;
+    background-color: #f5f5f5;
 }
 .cartItem{
     margin: 4px 0;
@@ -120,16 +127,29 @@ a{
 .dropdownList{
     display: none;
     position: absolute;
-    top: 100%;
+    top: 110%;
     right: 0;
     margin: 0;
     padding: 8px 0;
     font-size: 12px;
-    background-color: white;
+    background-color: #fafafa;
     white-space: nowrap;
-    box-shadow: 0 4px 4px rgba(0,0,0,0.1);
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    border-radius: 2px;
+}
+.dropdownList::before{
+    content: '';
+    display: block;
+    position: absolute;
+    right: 10px;
+    bottom: 100%;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #fafafa;
+}
+#notifications + .dropdownList a:hover{
+    color: #17a99d;
+    background-color: #f5f5f5;
 }
 /*#category:hover + .dropdownList, #cart:hover + .dropdownList, .dropdownList:hover{*/
 
@@ -140,7 +160,7 @@ a{
 .dropdownList a{
     display: block !important;
     padding: 8px 16px !important;
-    color: #17a99d;
+    color: #263238;
     margin: 0 !important;
 }
 .dropdownList a i{
@@ -885,7 +905,10 @@ h1{
 #offerWrapper span:first-of-type{
     font-size: 20px;
     color: #333;
-    margin-bottom: 8px;
+    margin: 16px 0;
+}
+#offerWrapper span:last-of-type{
+    padding: 8px;
 }
 #linkWrapper > div{
     flex: 1 1 auto;
@@ -927,8 +950,7 @@ h1{
     top:0;
     left: 0;
     bottom: 0;
-    background-color: #19BBAE;
-    /*background-color: #004f47;*/
+    background-color: #37474F;
     width: 20%;
     overflow-y: auto;
     font-size: 14px;
@@ -945,7 +967,7 @@ h1{
     position: relative;
 }
 #dashboardNavigator span{
-    background-color: #17AB9F;
+    background-color: #37474F;
     position: relative;
     align-items: center;
     justify-content: space-between;
@@ -971,7 +993,7 @@ h1{
     transform: rotate(90deg);
 }
 #dashboardNavigator li ul a{
-    background-color: #17ab9f;
+    background-color: #37474F;
     padding-left: 32px;
 }
 #dashboardNavigator a.active{
@@ -983,7 +1005,7 @@ h1{
     top:0;
     left: 20%;
     bottom: 0;
-    background-color: white;
+    background-color: #f5f5f5;
     right: 0;
     overflow-y: auto;
     font-size: 14px;
@@ -1037,11 +1059,11 @@ h1{
 }
 .table table{
     border-collapse: collapse;
-    border: 2px solid #17a99d;
+    border: 2px solid #37474F;
 }
 .table th{
     padding: 16px;
-    background-color: #17a99d;
+    background-color: #37474F;
     color: white;
 }
 .table td{
@@ -1130,9 +1152,6 @@ h1{
     max-width: 100%;
     max-height: 100%;
 }
-.imageViewer .mainImage img:hover{
-    cursor: zoom-in;
-}
 .imageViewer .otherImages{
     display: flex;
     flex-direction: column;
@@ -1185,15 +1204,17 @@ h1{
     flex-wrap: wrap;
 }
 .dashboardCard{
-    background-color: #17a99d;
+    background-color: white;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    margin: 5px 0;
+    margin: 5px;
     display: flex;
-    color: white;
-    width: 24%;
+    color: #333;
+    width: 30%;
+    flex-grow: 1;
 }
 .dashboardCard .icon{
-    background-color: #17909d;
+    background-color: #37474F;
+    color: white;
     font-size: 48px;
     padding: 24px;
 }

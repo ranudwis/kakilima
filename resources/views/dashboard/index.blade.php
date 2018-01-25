@@ -16,7 +16,7 @@
             "pengaturan" => [
                 "slider" => "Slider",
             ],
-            "transaksi" => "Transaksi"
+            "transaksi" => "Transaksi",
         ]
     ?>
     <div id="dashboardNavigator">

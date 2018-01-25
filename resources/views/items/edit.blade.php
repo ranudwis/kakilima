@@ -55,7 +55,7 @@
             <div><textarea name="description">{{ $item->description }}</textarea></div>
         </div>
         <div>
-            <button class="btnanim btnanimation" type="submit">Simpan</button>
+            <inputt type="submit" value="Simpan">
         </div>
     </form>
 </div>
