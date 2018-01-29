@@ -126,9 +126,13 @@ return [
         'photo' => 'foto',
         'code' => 'kode',
         'receipt' => 'resi',
+        'receiptNumber' => 'nomor resi',
         'review' => 'ulasan',
         'payment' => 'konfirmasi pembayaran',
-        'receiptNumber' => 'nomor resi'
+        'receiptNumber' => 'nomor resi',
+        'gender' => 'jenis kelamin',
+        'address' => 'alamat',
+        'discount' => 'diskon',
     ],
 
 ];
