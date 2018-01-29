@@ -28,6 +28,6 @@ class CreateTelegramintegrationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('telegramintegrations');
+        Schema::dropIfExists('telegramintegration');
     }
 }
