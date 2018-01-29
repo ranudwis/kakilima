@@ -54,10 +54,10 @@
                     </div>
                 </div>
                 <div>
-                    <div class="h-separator"></div>
+                    <button class="applyButton">Terapkan</button>
                 </div>
                 <div>
-                    <button class="applyButton">Terapkan</button>
+                    <div class="h-separator"></div>
                 </div>
             </form>
         </div>

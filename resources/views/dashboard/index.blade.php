@@ -17,6 +17,7 @@
                 "slider" => "Slider",
             ],
             "transaksi" => "Transaksi",
+            "pengguna" => "Pengguna",
         ]
     ?>
     <div id="dashboardNavigator">

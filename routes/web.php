@@ -115,6 +115,9 @@ Route::middleware(['auth','admin'])->group(function(){
     Route::get('/dashboard/pengaturan/slider/{slider}/hapus','DashboardController@destroySlider')->name('dashboard.slider.destroy');
     Route::get('/dashboard/kategori/{category}/hapus','DashboardController@destroyCategory')->name('dashboard.category.destroy');
     Route::get('/dashboard/kupon/{coupon}/hapus','DashboardController@destroyCoupon')->name('dashboard.coupon.destroy');
+    Route::get('/dashboard/user/{user}/hapus','DashboardController@destroyUser')->name('dashboard.user.destroy');
+    Route::get('/dashboard/user/{user}/blokir','DashboardController@banUser')->name('dashboard.user.ban');
+    Route::get('/dashboard//user/{user}/bukablokir','DashboardController@unbanUser')->name('dashboard.user.unban');
     Route::get('/dashboard','DashboardController@index')->name('dashboard');
     Route::get('/dashboard/{board}/{subboard?}/{param?}','DashboardController@dashboard')->name('board');
 

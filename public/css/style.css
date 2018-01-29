@@ -996,6 +996,9 @@ h1{
     background-color: #37474F;
     padding-left: 32px;
 }
+#dashboardNavigator a:hover,#dashboardNavigator span:hover{
+    background-color: #00877d;
+}
 #dashboardNavigator a.active{
     background-color: #00877d;
 }

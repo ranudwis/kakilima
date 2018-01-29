@@ -8,6 +8,7 @@ use App\Coupon;
 use App\Invoice;
 use App\Notification;
 use App\Transaction;
+use App\User;
 
 class DashboardController extends Controller
 {
@@ -54,6 +55,9 @@ class DashboardController extends Controller
                         break;
                 }
                 break;
+            case "pengguna":
+                $data = \App\User::where('level',0)->with('items','invoice','disposal')->get();
+                break;
         }
         return view('dashboard.index',['linkName' => $dash,'subLink' => $subdash, 'data' => $data]);
     }
@@ -80,7 +84,7 @@ class DashboardController extends Controller
 
         session()->flash('cm','Kupon telah ditambahkan');
 
-        return redirect()->route('board', ['board' => 'coupon', 'subboard' => 'tampil']);
+        return redirect()->route('board', ['board' => 'kupon', 'subboard' => 'tampil']);
     }
 
     public function confirminvoice(Invoice $invoice){
@@ -154,5 +158,32 @@ class DashboardController extends Controller
     public function destroyCoupon(Coupon $coupon){
         $coupon->delete();
         return back()->with('cm','Kupon berhasil dihapus');
+    }
+
+    public function destroyUser(User $user){
+        $user->invoice()->delete();
+        $user->cart()->delete();
+        $user->favorite()->delete();
+        $user->items()->delete();
+        $user->notification()->delete();
+        $user->disposal()->delete();
+        $user->transaction()->delete();
+        if(is_null($user->getOriginal('photo'))){
+            \Storage::delete($user->photo);
+        }
+        $user->delete();
+        return back()->with('cm','Pengguna dihapus');
+    }
+
+    public function banUser(User $user){
+        $user->banned = true;
+        $user->save();
+        return back()->with('cm','Pengguna diblokir');
+    }
+
+    public function unbanUser(User $user){
+        $user->banned = false;
+        $user->save();
+        return back()->with('cm','Pengguna dibuka blokir');
     }
 }

@@ -35,6 +35,10 @@ class SessionController extends Controller
         session()->flash('cm','Selamat datang');
         $user = \App\User::where('username',request('username'))->first();
 
+        if($user->banned){
+            auth()->logout();
+            return redirect()->route('login')->withErrors(['cm' => 'Akun kamu diblokir']);
+        }
         if($user->level == 0){
             return redirect()->route('home');
         }else{

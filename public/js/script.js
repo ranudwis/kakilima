@@ -185,6 +185,12 @@ $(".productButton .incCartCount").click(function(){
     }
     $(this).prev().val(next);
 })
+$('select[name=category]').change(function(){
+    $(this).parent().parent().parent().submit();
+});
+$('select[name=condition]').change(function(){
+    $(this).parent().parent().parent().submit();
+});
 function addCart(){
     var count = $(".btnCart").prev().children('input').val();
     if(isNaN(count)){

@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->text('address')->nullable();
             $table->text('photo')->nullable();
             $table->integer('telegram_id')->nullable();
+            $table->boolean('banned')->default('0');
             $table->boolean('level')->default(false);
             $table->rememberToken();
             $table->timestamps();
